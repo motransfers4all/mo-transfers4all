@@ -5,6 +5,7 @@ import AdminDashboard from './pages/AdminDashboard.jsx'
 import HotelDashboard from './pages/HotelDashboard.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Terms from './pages/Terms.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 function App() {
   return (
@@ -12,10 +13,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/hotel" element={<HotelDashboard />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/admin" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        }/>
+        <Route path="/hotel" element={
+          <ProtectedRoute requiredRole="hotel">
+            <HotelDashboard />
+          </ProtectedRoute>
+        }/>
       </Routes>
     </BrowserRouter>
   )
