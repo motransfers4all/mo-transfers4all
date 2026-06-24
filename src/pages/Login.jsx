@@ -10,31 +10,30 @@ export default function Login() {
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+  e.preventDefault()
+  setLoading(true)
+  setError(null)
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) throw error
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw new Error('Auth error: ' + error.message)
 
-      // Get user role from profiles table
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', data.user.id)
-        .single()
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .single()
 
-      if (profileError) throw profileError
+    if (profileError) throw new Error('Profile error: ' + profileError.message)
 
-      if (profile.role === 'admin') navigate('/admin')
-      else if (profile.role === 'hotel') navigate('/hotel')
+    if (profile.role === 'admin') navigate('/admin')
+    else if (profile.role === 'hotel') navigate('/hotel')
 
-    } catch (err) {
-      setError(err.message)
-    }
-    setLoading(false)
+  } catch (err) {
+    setError(err.message)
   }
+  setLoading(false)
+}
 
   return (
     <div style={{
