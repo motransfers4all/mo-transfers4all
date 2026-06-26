@@ -42,7 +42,7 @@ export default function CookieConsent() {
           left: 28px;
           z-index: 7999;
           max-width: 420px;
-          width: calc(100vw - 56px);
+          width: calc(100vw - 120px);
           background: rgba(255,255,255,0.97);
           border: 1px solid rgba(41,128,185,0.15);
           border-bottom: 3px solid var(--blue-bright, #2980b9);
@@ -129,7 +129,7 @@ export default function CookieConsent() {
           box-shadow: 0 0 0 2px rgba(37,211,102,0.2);
         }
         @media (max-width: 480px) {
-          .cookie-banner { left: 12px; right: 12px; width: auto; max-width: none; bottom: 16px; }
+          .cookie-banner { left: 12px; right: 96px; width: auto; max-width: none; bottom: 16px; }
         }
       `}</style>
 
