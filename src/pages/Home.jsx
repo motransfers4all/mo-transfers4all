@@ -7,6 +7,7 @@ import Prices from '../components/Prices.jsx'
 import Services from '../components/Services.jsx'
 import Footer from '../components/Footer.jsx'
 import WhatsAppButton from '../components/WhatsAppButton.jsx'
+import CookieConsent from '../components/CookieConsent.jsx'
 
 export default function Home() {
   const [lang, setLang] = useState(() => localStorage.getItem('mo-lang') || 'en')
@@ -34,6 +35,7 @@ export default function Home() {
       <Services lang={lang}/>
       <Footer lang={lang}/>
       <WhatsAppButton/>
+      <CookieConsent/>
     </>
   )
 }
