@@ -50,7 +50,7 @@ function AutocompleteInput({ placeholder, value, onChange, onSelect }) {
     setLoading(true)
     timer.current = setTimeout(async () => {
       try {
-        const res = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(val)}&lang=en&limit=5&apiKey=${GEOAPIFY_KEY}`)
+        const res = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(val)}&filter=countrycode:gr&bias=proximity:23.7275,37.9838&lang=en&limit=5&apiKey=${GEOAPIFY_KEY}`)
         const data = await res.json()
         setResults(data.features || [])
         setOpen(true)
