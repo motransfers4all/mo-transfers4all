@@ -63,34 +63,15 @@ const showNotification = (booking) => {
 }
 
   useEffect(() => {
-  getCurrentUser().then(u => {
+  const init = async () => {
+    const u = await getCurrentUser()
     if (!u || u.role !== 'admin') {
       navigate('/login')
       return
     }
-    fetchBookings()
-
-    // Real-time subscription
-    const channel = supabase
-      .channel('bookings-changes')
-      .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'bookings' },
-        (payload) => {
-          setBookings(prev => [...prev, payload.new])
-          playNotification()
-          showNotification(payload.new)
-        }
-      )
-      .subscribe()
-
-    // Auto refresh every 60 seconds
-    const interval = setInterval(fetchBookings, 60000)
-
-    return () => {
-      supabase.removeChannel(channel)
-      clearInterval(interval)
-    }
-  })
+    await fetchBookings()
+  }
+  init()
 }, [])
   const updateBooking = async (id, updates) => {
     const { error } = await supabase
