@@ -1,119 +1,169 @@
+import { useState, useEffect } from 'react'
+
+const SLIDES = [
+  { url: 'https://images.unsplash.com/photo-1555993539-1732b0258235?w=1400&q=80', label: 'Acropolis, Athens' },
+  { url: 'https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?w=1400&q=80', label: 'Athens by night' },
+  { url: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80', label: 'Arriving in Greece' },
+]
+
 const translations = {
   en: {
-    eyebrow: 'Premium Transfer Services',
-    title1: 'Athens',
-    title2: 'Elite',
-    title3: 'Transfers',
-    sub: 'Luxury private transfers across Athens, Attica & beyond. Punctuality, discretion, and excellence in every journey.',
-    cta: 'Book Your Transfer',
-    scroll: 'Scroll'
+    eyebrow: 'Private Transfers · Athens & Attica',
+    title1: 'Your Journey,',
+    title2: 'Our',
+    titleEm: 'Priority.',
+    sub: 'Professional private transfers across Athens, Attica and all of Greece. Airport pickups, long-distance routes, sightseeing — always on time, always with care.',
+    cta: 'Book a Transfer',
+    call: '+30 693 647 5451',
+    trust: ['Licensed & Insured', '24/7 Available', 'Fixed Prices', 'Flight Monitoring'],
+    stat1: '24/7', stat1label: 'Available',
+    stat2: '100%', stat2label: 'Fixed prices · No surprises',
   },
   gr: {
-    eyebrow: 'Υπηρεσίες Premium Μεταφοράς',
-    title1: 'Athens',
-    title2: 'Elite',
-    title3: 'Transfers',
-    sub: 'Πολυτελείς ιδιωτικές μεταφορές στην Αθήνα, Αττική & πέρα από αυτήν. Ακρίβεια, διακριτικότητα και αριστεία σε κάθε διαδρομή.',
-    cta: 'Κάντε Κράτηση',
-    scroll: 'Κύλιση'
+    eyebrow: 'Ιδιωτικές Μεταφορές · Αθήνα & Αττική',
+    title1: 'Το Ταξίδι σας,',
+    title2: 'Η',
+    titleEm: 'Προτεραιότητά μας.',
+    sub: 'Επαγγελματικές ιδιωτικές μεταφορές στην Αθήνα, Αττική και σε όλη την Ελλάδα. Αεροδρόμιο, μακρινές διαδρομές, εκδρομές — πάντα στην ώρα μας.',
+    cta: 'Κλείστε Θέση',
+    call: '+30 693 647 5451',
+    trust: ['Αδειοδοτημένοι', 'Διαθέσιμοι 24/7', 'Σταθερές Τιμές', 'Παρακολούθηση Πτήσης'],
+    stat1: '24/7', stat1label: 'Διαθέσιμοι',
+    stat2: '100%', stat2label: 'Σταθερές τιμές · Χωρίς εκπλήξεις',
   }
 }
 
 export default function Hero({ lang }) {
   const t = translations[lang]
+  const [idx, setIdx] = useState(0)
+  const [label, setLabel] = useState(SLIDES[0].label)
+  const [labelVisible, setLabelVisible] = useState(true)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setLabelVisible(false)
+      setTimeout(() => {
+        setIdx(prev => {
+          const next = (prev + 1) % SLIDES.length
+          setLabel(SLIDES[next].label)
+          return next
+        })
+        setLabelVisible(true)
+      }, 600)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
-    <section style={{
-      minHeight: '100vh', position: 'relative',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      overflow: 'hidden', padding: '100px 1.5rem 60px'
-    }}>
-      {/* Background */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%), linear-gradient(160deg, #0d1b2a 0%, #0a1520 40%, #0d1b2a 100%)'
-      }}/>
+    <section style={{ minHeight: '100vh', display: 'flex', position: 'relative', overflow: 'hidden' }}>
 
-      {/* Grid */}
+      {/* Left white panel */}
       <div style={{
-        position: 'absolute', inset: 0, opacity: 0.04,
-        backgroundImage: 'linear-gradient(var(--gold) 1px, transparent 1px), linear-gradient(90deg, var(--gold) 1px, transparent 1px)',
-        backgroundSize: '60px 60px'
-      }}/>
-
-      {/* Photo placeholder — replace with real Athens photo later */}
-      <div style={{
-        position: 'absolute', inset: 0, opacity: 0.08,
-        background: 'url(/athens-hero.jpg) center/cover no-repeat'
-      }}/>
-
-      {/* Circles */}
-      <div style={{
-        position: 'absolute', left: '50%', top: '50%',
-        transform: 'translate(-50%,-50%)',
-        width: '600px', height: '600px', opacity: 0.06,
-        border: '1px solid var(--gold)', borderRadius: '50%'
-      }}/>
-
-      {/* Content */}
-      <div style={{ position: 'relative', textAlign: 'center', maxWidth: '760px' }}>
+        position: 'relative', zIndex: 2,
+        width: '100%', maxWidth: '520px',
+        background: '#fff',
+        padding: 'clamp(88px,11vw,126px) clamp(1.5rem,5.5vw,4.5rem) clamp(60px,7vw,88px)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        minHeight: '100vh'
+      }}>
         <div style={{
-          fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-          color: 'var(--gold)', fontWeight: 500, marginBottom: '1.5rem',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem'
+          fontSize: '0.6rem', letterSpacing: '0.32em', textTransform: 'uppercase',
+          color: 'var(--blue-bright)', fontWeight: 600, marginBottom: '1rem',
+          display: 'flex', alignItems: 'center', gap: '0.7rem'
         }}>
-          <span style={{ display: 'block', width: '40px', height: '1px', background: 'var(--gold)', opacity: 0.5 }}/>
+          <span style={{ display: 'block', width: '26px', height: '2px', background: 'var(--blue-bright)', borderRadius: '1px', flexShrink: 0 }}/>
           {t.eyebrow}
-          <span style={{ display: 'block', width: '40px', height: '1px', background: 'var(--gold)', opacity: 0.5 }}/>
         </div>
 
-        {/* Logo image in hero */}
-        <img src="/logo.jpg" alt="MO Transfers4all" style={{
-          width: 'clamp(100px, 22vw, 160px)',
-          height: 'clamp(100px, 22vw, 160px)',
-          borderRadius: '50%', objectFit: 'cover',
-          border: '2px solid var(--gold)',
-          boxShadow: '0 0 60px rgba(201,168,76,0.2)',
-          marginBottom: '1.5rem'
-        }}/>
-
-        <h2 style={{
-          fontFamily: 'Cormorant Garamond, serif',
-          fontSize: 'clamp(1.6rem, 4vw, 2.8rem)',
-          fontWeight: 700, color: 'var(--white)',
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-          marginBottom: '1rem', textShadow: '0 2px 20px rgba(201,168,76,0.3)'
+        <h1 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontSize: 'clamp(2.1rem,4.8vw,3.5rem)',
+          fontWeight: 700, color: 'var(--blue-deep)',
+          lineHeight: 1.13, marginBottom: '1.4rem'
         }}>
-          MO Transfers4all <em style={{ color: 'var(--gold)', fontStyle: 'italic', fontWeight: 300 }}>Athens</em>
-        </h2>
+          {t.title1}<br/>{t.title2} <em style={{ fontStyle: 'italic', color: 'var(--blue-bright)', fontWeight: 400 }}>{t.titleEm}</em>
+        </h1>
 
         <p style={{
-          fontSize: '0.82rem', letterSpacing: '0.1em',
-          color: 'var(--text-muted)', marginBottom: '2.5rem',
-          maxWidth: '480px', margin: '0 auto 2.5rem'
+          fontSize: '0.88rem', color: 'var(--text-mid)',
+          lineHeight: 1.82, marginBottom: '2.4rem', maxWidth: '400px'
         }}>{t.sub}</p>
 
-        <a href="#booking" style={{
-          display: 'inline-flex', alignItems: 'center', gap: '0.75rem',
-          background: 'var(--gold)', color: 'var(--navy)',
-          padding: '0.85rem 2.2rem',
-          fontSize: '0.72rem', letterSpacing: '0.2em', fontWeight: 600,
-          textTransform: 'uppercase', textDecoration: 'none',
-          transition: 'all 0.3s'
-        }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'var(--gold-light)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.transform = 'translateY(0)' }}
-        >{t.cta}</a>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.4rem' }}>
+          <a href="#booking" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+            background: 'var(--blue-deep)', color: '#fff',
+            padding: '0.88rem 1.9rem', borderRadius: '4px',
+            fontSize: '0.73rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
+            boxShadow: '0 4px 18px rgba(15,52,96,0.24)', transition: 'all 0.3s'
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--blue-mid)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--blue-deep)'; e.currentTarget.style.transform = 'translateY(0)' }}
+          >
+            {t.cta} →
+          </a>
+          <a href={`tel:${t.call.replace(/\s/g,'')}`} style={{
+            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+            border: '1.5px solid var(--border)', color: 'var(--blue-deep)',
+            padding: '0.88rem 1.4rem', borderRadius: '4px',
+            fontSize: '0.73rem', fontWeight: 500, transition: 'all 0.2s'
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--blue-bright)'; e.currentTarget.style.color = 'var(--blue-bright)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--blue-deep)' }}
+          >
+            📞 {t.call}
+          </a>
+        </div>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem 1.5rem' }}>
+          {t.trust.map(item => (
+            <div key={item} style={{ fontSize: '0.7rem', color: 'var(--text-mid)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--blue-bright)', flexShrink: 0 }}/>
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div style={{
-        position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-        color: 'var(--text-muted)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase'
-      }}>
-        <div style={{ width: '1px', height: '40px', background: 'linear-gradient(to bottom, var(--gold), transparent)' }}/>
-        {t.scroll}
+      {/* Right photo panel */}
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'calc(100% - 500px)', minWidth: '280px', overflow: 'hidden' }}>
+        {SLIDES.map((s, i) => (
+          <div key={i} style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `url('${s.url}')`,
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            opacity: i === idx ? 1 : 0,
+            transition: 'opacity 1.2s ease'
+          }}/>
+        ))}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(90deg,rgba(255,255,255,0.18) 0%,transparent 25%), linear-gradient(to top,rgba(10,37,64,0.55) 0%,transparent 50%)'
+        }}/>
+
+        {/* Stat card */}
+        <div style={{
+          position: 'absolute', bottom: '2.5rem', right: '2rem',
+          background: 'rgba(10,37,64,0.86)', backdropFilter: 'blur(10px)',
+          borderRadius: '8px', padding: '1.1rem 1.4rem',
+          border: '1px solid rgba(255,255,255,0.11)', minWidth: '200px'
+        }}>
+          <div style={{ fontSize: '1.7rem', fontFamily: 'Playfair Display, serif', fontWeight: 700, color: '#fff', lineHeight: 1 }}>{t.stat1}</div>
+          <div style={{ fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#7ab3d9', marginTop: '0.28rem' }}>{t.stat1label}</div>
+          <div style={{ margin: '0.7rem 0', width: '100%', height: '1px', background: 'rgba(255,255,255,0.09)' }}/>
+          <div style={{ fontSize: '1.7rem', fontFamily: 'Playfair Display, serif', fontWeight: 700, color: '#fff', lineHeight: 1 }}>{t.stat2}</div>
+          <div style={{ fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#7ab3d9', marginTop: '0.28rem' }}>{t.stat2label}</div>
+        </div>
+
+        {/* Slide label */}
+        <div style={{
+          position: 'absolute', bottom: '2.5rem', left: '2rem',
+          fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.75)', fontWeight: 500,
+          background: 'rgba(10,37,64,0.55)', padding: '0.35rem 0.75rem',
+          borderRadius: '20px', backdropFilter: 'blur(6px)',
+          opacity: labelVisible ? 1 : 0, transition: 'opacity 0.5s'
+        }}>{label}</div>
       </div>
     </section>
   )
