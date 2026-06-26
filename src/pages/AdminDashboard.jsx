@@ -64,42 +64,34 @@ const showNotification = (booking) => {
 
   useEffect(() => {
   getCurrentUser().then(u => {
-    if (!u) {
-      navigate('/login')
-      return
-    }
-    if (u.role !== 'admin') {
+    if (!u || u.role !== 'admin') {
       navigate('/login')
       return
     }
     fetchBookings()
+
+    // Real-time subscription
+    const channel = supabase
+      .channel('bookings-changes')
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'bookings' },
+        (payload) => {
+          setBookings(prev => [...prev, payload.new])
+          playNotification()
+          showNotification(payload.new)
+        }
+      )
+      .subscribe()
+
+    // Auto refresh every 60 seconds
+    const interval = setInterval(fetchBookings, 60000)
+
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(interval)
+    }
   })
-
-  // Real-time subscription
-  const channel = supabase
-    .channel('bookings-changes')
-    .on('postgres_changes', 
-      { event: 'INSERT', schema: 'public', table: 'bookings' },
-      (payload) => {
-        // Add new booking to state
-        setBookings(prev => [...prev, payload.new])
-        // Play notification sound
-        playNotification()
-        // Show browser notification
-        showNotification(payload.new)
-      }
-    )
-    .subscribe()
-
-  // Auto refresh every 60 seconds as fallback
-  const interval = setInterval(fetchBookings, 60000)
-
-  return () => {
-    supabase.removeChannel(channel)
-    clearInterval(interval)
-  }
 }, [])
-
   const updateBooking = async (id, updates) => {
     const { error } = await supabase
       .from('bookings')
