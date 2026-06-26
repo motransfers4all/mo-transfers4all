@@ -64,9 +64,16 @@ const showNotification = (booking) => {
 
   useEffect(() => {
   getCurrentUser().then(u => {
-    if (!u || u.role !== 'admin') navigate('/login')
+    if (!u) {
+      navigate('/login')
+      return
+    }
+    if (u.role !== 'admin') {
+      navigate('/login')
+      return
+    }
+    fetchBookings()
   })
-  fetchBookings()
 
   // Real-time subscription
   const channel = supabase
