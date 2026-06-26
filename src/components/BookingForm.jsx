@@ -131,43 +131,48 @@ export default function BookingForm({ lang }) {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setMsg(null)
+  e.preventDefault()
+  setLoading(true)
+  setMsg(null)
 
+  try {
+    const { error } = await supabase.from('bookings').insert([{
+      source: 'website',
+      passenger_name: form.name,
+      passenger_phone: form.phone,
+      passenger_email: form.email,
+      pickup: form.pickup,
+      dropoff: form.dropoff,
+      date: form.date,
+      time: form.time,
+      vehicle: form.vehicle,
+      notes: form.notes,
+      status: 'pending'
+    }])
+
+    if (error) throw new Error('Booking error: ' + error.message)
+
+    // CallMeBot — fire and forget, dont let it block success
     try {
-      const { error } = await supabase.from('bookings').insert([{
-        source: 'website',
-        passenger_name: form.name,
-        passenger_phone: form.phone,
-        passenger_email: form.email,
-        pickup: form.pickup,
-        dropoff: form.dropoff,
-        date: form.date,
-        time: form.time,
-        vehicle: form.vehicle,
-        notes: form.notes,
-        status: 'pending'
-      }])
-
-      if (error) throw error
-
-      // CallMeBot WhatsApp notification
       const message = `🚖 Νέα Κράτηση — MO Transfers4all\n\n👤 Όνομα: ${form.name}\n📞 Τηλέφωνο: ${form.phone}\n✉️ Email: ${form.email}\n🚗 Όχημα: ${form.vehicle}\n📍 Παραλαβή: ${form.pickup}\n🏁 Προορισμός: ${form.dropoff}\n📅 Ημερομηνία: ${form.date}\n⏰ Ώρα: ${form.time}\n📝 Σημειώσεις: ${form.notes || '—'}`
       const apiKey = import.meta.env.VITE_CALLMEBOT_KEY
       const phone = import.meta.env.VITE_FATHER_PHONE
       if (apiKey && apiKey !== 'PENDING') {
         await fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(message)}&apikey=${apiKey}`)
       }
-
-      setMsg({ type: 'success', text: t.success })
-      setForm({ name: '', phone: '', email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '' })
-    } catch (err) {
-      console.error(err)
-      setMsg({ type: 'error', text: t.error })
+    } catch (waErr) {
+      console.warn('WhatsApp notification failed:', waErr)
     }
-    setLoading(false)
+
+    setMsg({ type: 'success', text: t.success })
+    setForm({ name: '', phone: '', email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '' })
+
+  } catch (err) {
+    console.error('Booking error:', err)
+    setMsg({ type: 'error', text: err.message || t.error })
   }
+  setLoading(false)
+}
 
   return (
     <section id="booking" style={{ padding: '80px 1.5rem', background: 'var(--navy-mid)' }}>
