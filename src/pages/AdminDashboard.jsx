@@ -173,12 +173,18 @@ const showNotification = (booking) => {
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
           <a href="/" style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textDecoration: 'none' }}>← Website</a>
-          <button onClick={handleSignOut} style={{
-            background: 'transparent', border: '1px solid var(--border)',
-            color: 'var(--text-muted)', fontFamily: 'Montserrat, sans-serif',
-            fontSize: '0.7rem', letterSpacing: '0.1em', padding: '0.4rem 1rem',
-            cursor: 'pointer', textTransform: 'uppercase'
-          }}>Sign Out</button>
+          <button onClick={() => Notification.requestPermission()} style={{
+  background: 'transparent', border: '1px solid var(--border)',
+  color: 'var(--text-muted)', fontFamily: 'Montserrat, sans-serif',
+  fontSize: '0.7rem', letterSpacing: '0.1em', padding: '0.4rem 1rem',
+  cursor: 'pointer', textTransform: 'uppercase'
+}}>🔔 Ειδοποιήσεις</button>
+<button onClick={handleSignOut} style={{
+  background: 'transparent', border: '1px solid var(--border)',
+  color: 'var(--text-muted)', fontFamily: 'Montserrat, sans-serif',
+  fontSize: '0.7rem', letterSpacing: '0.1em', padding: '0.4rem 1rem',
+  cursor: 'pointer', textTransform: 'uppercase'
+}}>Έξοδος</button>
         </div>
       </div>
 
