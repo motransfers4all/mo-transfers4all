@@ -30,21 +30,68 @@ export default function AdminDashboard() {
   const [filterDriver, setFilterDriver] = useState('all')
   const [currentMonth, setCurrentMonth] = useState(new Date())
 
-  useEffect(() => {
-    getCurrentUser().then(u => {
-      if (!u || u.role !== 'admin') navigate('/login')
-    })
-    fetchBookings()
-  }, [])
-
-  const fetchBookings = async () => {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('date', { ascending: true })
-    if (!error) setBookings(data || [])
-    setLoading(false)
+const playNotification = () => {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)()
+    const oscillator = ctx.createOscillator()
+    const gainNode = ctx.createGain()
+    oscillator.connect(gainNode)
+    gainNode.connect(ctx.destination)
+    oscillator.frequency.setValueAtTime(880, ctx.currentTime)
+    oscillator.frequency.setValueAtTime(660, ctx.currentTime + 0.1)
+    oscillator.frequency.setValueAtTime(880, ctx.currentTime + 0.2)
+    gainNode.gain.setValueAtTime(0.3, ctx.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4)
+    oscillator.start(ctx.currentTime)
+    oscillator.stop(ctx.currentTime + 0.4)
+  } catch(e) {
+    console.warn('Audio not supported:', e)
   }
+}
+
+const showNotification = (booking) => {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('🚖 Νέα Κράτηση!', {
+      body: `${booking.passenger_name} · ${booking.pickup} → ${booking.dropoff}`,
+      icon: '/logo.jpg'
+    })
+  } else if ('Notification' in window && Notification.permission !== 'denied') {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') showNotification(booking)
+    })
+  }
+}
+
+  useEffect(() => {
+  getCurrentUser().then(u => {
+    if (!u || u.role !== 'admin') navigate('/login')
+  })
+  fetchBookings()
+
+  // Real-time subscription
+  const channel = supabase
+    .channel('bookings-changes')
+    .on('postgres_changes', 
+      { event: 'INSERT', schema: 'public', table: 'bookings' },
+      (payload) => {
+        // Add new booking to state
+        setBookings(prev => [...prev, payload.new])
+        // Play notification sound
+        playNotification()
+        // Show browser notification
+        showNotification(payload.new)
+      }
+    )
+    .subscribe()
+
+  // Auto refresh every 60 seconds as fallback
+  const interval = setInterval(fetchBookings, 60000)
+
+  return () => {
+    supabase.removeChannel(channel)
+    clearInterval(interval)
+  }
+}, [])
 
   const updateBooking = async (id, updates) => {
     const { error } = await supabase
