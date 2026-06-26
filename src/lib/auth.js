@@ -1,16 +1,26 @@
 import { supabase } from './supabase'
 
 export async function getCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return null
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role, name')
-    .eq('id', user.id)
-    .single()
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('role, name')
+      .eq('id', session.user.id)
+      .single()
 
-  return { ...user, ...profile }
+    if (error) {
+      console.error('Profile fetch error:', error)
+      return null
+    }
+
+    return { ...session.user, ...profile }
+  } catch(e) {
+    console.error('getCurrentUser error:', e)
+    return null
+  }
 }
 
 export async function signOut() {
