@@ -117,13 +117,24 @@ export default function Navbar({ lang, setLang }) {
             </svg>
             {t.home}
           </a>
-          {[['#destinations', t.destinations], ['#booking', t.book], ['#fleet', t.fleet], ['#prices', t.prices], ['#services', t.services]].map(([href, label]) => (
+          {[
+            ['#destinations', t.destinations, '🗺️'],
+            ['#booking', t.book, '📋'],
+            ['#fleet', t.fleet, '🚖'],
+            ['#prices', t.prices, '💶'],
+            ['#services', t.services, '⭐'],
+          ].map(([href, label, icon]) => (
             <a key={href} href={href} onClick={() => setMenuOpen(false)}
-              style={{ color: 'var(--text-dark)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.5rem 0', borderBottom: '1px solid var(--border)' }}>
+              style={{ color: 'var(--text-dark)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.5rem 0', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '1rem' }}>{icon}</span>
               {label}
             </a>
           ))}
-          <Link to="/login" onClick={() => setMenuOpen(false)} style={{ color: 'var(--blue-bright)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{t.portal}</Link>
+          <Link to="/login" onClick={() => setMenuOpen(false)}
+            style={{ color: 'var(--blue-bright)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '1rem' }}>🔑</span>
+            {t.portal}
+          </Link>
         </div>
       )}
     </>
