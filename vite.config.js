@@ -7,23 +7,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: null, // We manually inject in AdminDashboard
       includeAssets: ['favicon.ico', 'logo.jpg', 'apple-touch-icon.png'],
-      manifest: {
-        name: 'MO Transfers4all Admin',
-        short_name: 'MO Admin',
-        description: 'Admin dashboard for MO Transfers4all Athens',
-        theme_color: '#0f3460',
-        background_color: '#f8fafc',
-        display: 'standalone',
-        orientation: 'portrait',
-        scope: '/',
-        start_url: '/admin',
-        icons: [
-          { src: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
-          { src: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-          { src: '/logo.jpg', sizes: '192x192', type: 'image/jpeg', purpose: 'any maskable' },
-        ]
-      },
+      manifest: false, // Disable auto-inject into index.html
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,jpg,svg}'],
         runtimeCaching: [
