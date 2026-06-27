@@ -6,6 +6,17 @@ import { getCurrentUser, signOut } from '../lib/auth'
 function usePWAInstall() {
   const [prompt, setPrompt] = useState(null)
   const [installed, setInstalled] = useState(false)
+
+  useEffect(() => {
+    // Inject the admin-specific manifest so PWA start_url = /admin
+    const existing = document.querySelector('link[rel="manifest"]')
+    const link = existing || document.createElement('link')
+    link.rel = 'manifest'
+    link.href = '/admin-manifest.json'
+    if (!existing) document.head.appendChild(link)
+    // Restore on unmount
+    return () => { if (!existing) link.remove(); else link.href = '/manifest.webmanifest' }
+  }, [])
   useEffect(() => {
     const handler = (e) => { e.preventDefault(); setPrompt(e) }
     window.addEventListener('beforeinstallprompt', handler)
@@ -109,32 +120,45 @@ export default function AdminDashboard() {
   const t = T[lang]
 
   useEffect(() => {
-    const init = async () => {
-      const u = await getCurrentUser()
-      if (!u || u.role !== 'admin') { navigate('/login'); return }
+    let bookingChannel, refreshInterval
+
+    const init = async (session) => {
+      if (!session) { navigate("/login"); return }
+
+      const { data: profile } = await supabase
+        .from("profiles").select("role").eq("id", session.user.id).single()
+
+      if (!profile || profile.role !== "admin") { navigate("/login"); return }
 
       const { data, error } = await supabase
-        .from('bookings').select('*').order('date', { ascending: true })
+        .from("bookings").select("*").order("date", { ascending: true })
       if (!error) setBookings(data || [])
       setLoading(false)
 
-      const channel = supabase
-        .channel('bookings-realtime')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'bookings' }, (payload) => {
+      bookingChannel = supabase
+        .channel("bookings-realtime")
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "bookings" }, (payload) => {
           setBookings(prev => [...prev, payload.new])
           playNotification()
           showBrowserNotification(payload.new)
         })
         .subscribe()
 
-      const interval = setInterval(async () => {
-        const { data } = await supabase.from('bookings').select('*').order('date', { ascending: true })
+      refreshInterval = setInterval(async () => {
+        const { data } = await supabase.from("bookings").select("*").order("date", { ascending: true })
         if (data) setBookings(data)
       }, 60000)
-
-      return () => { supabase.removeChannel(channel); clearInterval(interval) }
     }
-    init()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      init(session)
+    })
+
+    return () => {
+      subscription.unsubscribe()
+      if (bookingChannel) supabase.removeChannel(bookingChannel)
+      if (refreshInterval) clearInterval(refreshInterval)
+    }
   }, [])
 
   const fetchBookings = async () => {
