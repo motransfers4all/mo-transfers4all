@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const translations = {
-  en: { book: 'Book Now', fleet: 'Fleet', services: 'Services', prices: 'Rates', destinations: 'Destinations' },
-  gr: { book: 'Κράτηση', fleet: 'Στόλος', services: 'Υπηρεσίες', prices: 'Τιμές', destinations: 'Προορισμοί' }
+  en: { book: 'Book Now', fleet: 'Fleet', services: 'Services', prices: 'Rates', destinations: 'Destinations', home: 'Home' },
+  gr: { book: 'Κράτηση', fleet: 'Στόλος', services: 'Υπηρεσίες', prices: 'Τιμές', destinations: 'Προορισμοί', home: 'Αρχική' }
 }
 
 export default function Navbar({ lang, setLang }) {
@@ -99,6 +99,14 @@ export default function Navbar({ lang, setLang }) {
           display: 'flex', flexDirection: 'column', gap: '1rem',
           boxShadow: '0 8px 24px rgba(15,52,96,0.1)'
         }}>
+          <a href="/" onClick={() => setMenuOpen(false)}
+            style={{ color: 'var(--text-dark)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.5rem 0', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            {t.home}
+          </a>
           {[['#destinations', t.destinations], ['#booking', t.book], ['#fleet', t.fleet], ['#prices', t.prices], ['#services', t.services]].map(([href, label]) => (
             <a key={href} href={href} onClick={() => setMenuOpen(false)}
               style={{ color: 'var(--text-dark)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.5rem 0', borderBottom: '1px solid var(--border)' }}>
