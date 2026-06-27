@@ -198,7 +198,17 @@ export default function Destinations({ lang, onSelect }) {
           <div className="blue-line" style={{ background: 'linear-gradient(90deg,#7ab3d9,rgba(122,179,217,0.2))' }}/>
         </div>
 
-        <div className="reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.2rem' }}>
+        <style>{`
+          @media (max-width: 768px) {
+            .dest-grid { grid-template-columns: 1fr !important; }
+            .dest-grid > div[style*="span 2"] { grid-column: span 1 !important; aspect-ratio: 16/9 !important; min-height: unset !important; }
+          }
+          @media (min-width: 769px) and (max-width: 1024px) {
+            .dest-grid { grid-template-columns: repeat(2,1fr) !important; }
+          }
+        `}</style>
+
+        <div className="reveal dest-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1.2rem' }}>
           <Card dest={wide} isWide={true}/>
           {rest.map(d => <Card key={d.id} dest={d} isWide={false}/>)}
         </div>
