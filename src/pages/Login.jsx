@@ -23,6 +23,10 @@ export default function Login() {
 
       if (profile.role === 'admin') navigate('/admin')
       else if (profile.role === 'hotel') navigate('/hotel')
+      else {
+        await supabase.auth.signOut()
+        throw new Error('Your account does not have access to this portal. Please contact support.')
+      }
     } catch (err) {
       setError(err.message)
     }

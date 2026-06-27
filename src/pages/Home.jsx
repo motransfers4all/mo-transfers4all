@@ -37,8 +37,8 @@ export default function Home() {
       <Fleet lang={lang}/>
       <Prices lang={lang}/>
       <Footer lang={lang}/>
-      <WhatsAppButton/>
-      <CookieConsent/>
+      <WhatsAppButton lang={lang}/>
+      <CookieConsent lang={lang}/>
     </>
   )
 }
