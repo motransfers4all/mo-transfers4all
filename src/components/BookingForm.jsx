@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 
-const GEOAPIFY_KEY = import.meta.env.VITE_GEOAPIFY_KEY
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
 
 const translations = {
   en: {
@@ -63,7 +63,7 @@ function AutocompleteInput({ placeholder, value, onChange }) {
     if (val.length < 3) { setResults([]); setOpen(false); return }
     timer.current = setTimeout(async () => {
       try {
-        const res = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(val)}&filter=countrycode:gr&bias=proximity:23.7275,37.9838&lang=en&limit=5&apiKey=${GEOAPIFY_KEY}`)
+        const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(val)}.json?country=gr&proximity=23.7275,37.9838&language=en&limit=5&access_token=${MAPBOX_TOKEN}`)
         const data = await res.json()
         setResults(data.features || [])
         setOpen(true)
@@ -97,11 +97,10 @@ function AutocompleteInput({ placeholder, value, onChange }) {
           boxShadow: '0 8px 24px rgba(15,52,96,0.1)'
         }}>
           {results.map((f, i) => {
-            const p = f.properties
-            const main = p.name || p.street || p.formatted.split(',')[0]
-            const sub = p.formatted.replace(main + ', ', '')
+            const main = f.text
+            const sub = f.place_name.replace(f.text + ', ', '')
             return (
-              <div key={i} onMouseDown={() => { onChange(p.formatted); setOpen(false) }}
+              <div key={i} onMouseDown={() => { onChange(f.place_name); setOpen(false) }}
                 style={{ padding: '0.7rem 1rem', cursor: 'pointer', borderBottom: '1px solid var(--border)', fontSize: '0.78rem' }}
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--blue-mist)'}
                 onMouseLeave={e => e.currentTarget.style.background = '#fff'}
