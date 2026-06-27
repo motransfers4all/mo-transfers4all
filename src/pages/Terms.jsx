@@ -50,7 +50,7 @@ const en = {
     {
       num: '09', title: 'Contact',
       content: 'For any questions regarding these terms or our services, please contact us:',
-      highlight: 'marjoruci@gmail.com\n+30 693 647 5451\n+30 699 360 5070',
+      highlight: 'marjoruci@gmail.com\n+30 693 647 5451',
     },
   ]
 }
@@ -103,7 +103,7 @@ const gr = {
     {
       num: '09', title: 'Επικοινωνία',
       content: 'Για οποιεσδήποτε ερωτήσεις σχετικά με αυτούς τους όρους ή τις υπηρεσίες μας:',
-      highlight: 'marjoruci@gmail.com\n+30 693 647 5451\n+30 699 360 5070',
+      highlight: 'marjoruci@gmail.com\n+30 693 647 5451',
     },
   ]
 }
