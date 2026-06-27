@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const translations = {
-  en: { book: 'Book Now', fleet: 'Fleet', services: 'Services', prices: 'Rates', destinations: 'Destinations', home: 'Home' },
-  gr: { book: 'Κράτηση', fleet: 'Στόλος', services: 'Υπηρεσίες', prices: 'Τιμές', destinations: 'Προορισμοί', home: 'Αρχική' }
+  en: { book: 'Book Now', fleet: 'Fleet', services: 'Services', prices: 'Rates', destinations: 'Destinations', home: 'Home', portal: 'Portal' },
+  gr: { book: 'Κράτηση', fleet: 'Στόλος', services: 'Υπηρεσίες', prices: 'Τιμές', destinations: 'Προορισμοί', home: 'Αρχική', portal: 'Πύλη' }
 }
 
 export default function Navbar({ lang, setLang }) {
@@ -35,6 +35,18 @@ export default function Navbar({ lang, setLang }) {
 
   return (
     <>
+      <style>{`
+        .nav-desktop-links { display: flex; }
+        .nav-book-btn { display: inline-flex; }
+        .nav-burger { display: none; }
+
+        @media (max-width: 767px) {
+          .nav-desktop-links { display: none; }
+          .nav-book-btn { display: none; }
+          .nav-burger { display: flex; }
+        }
+      `}</style>
+
       <nav style={navStyle}>
         {/* Logo */}
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -49,7 +61,7 @@ export default function Navbar({ lang, setLang }) {
         </a>
 
         {/* Desktop links */}
-        <ul style={{ display: window.innerWidth >= 768 ? 'flex' : 'none', listStyle: 'none', gap: '2rem' }}>
+        <ul className="nav-desktop-links" style={{ listStyle: 'none', gap: '2rem' }}>
           {[['#destinations', t.destinations], ['#booking', t.book], ['#fleet', t.fleet], ['#prices', t.prices], ['#services', t.services]].map(([href, label]) => (
             <li key={href}>
               <a href={href} style={linkStyle}
@@ -58,7 +70,7 @@ export default function Navbar({ lang, setLang }) {
               >{label}</a>
             </li>
           ))}
-          <li><Link to="/login" style={{ ...linkStyle, color: 'var(--blue-bright)' }}>Portal</Link></li>
+          <li><Link to="/login" style={{ ...linkStyle, color: 'var(--blue-bright)' }}>{t.portal}</Link></li>
         </ul>
 
         {/* Right side */}
@@ -74,14 +86,12 @@ export default function Navbar({ lang, setLang }) {
               }}>{l.toUpperCase()}</button>
             ))}
           </div>
-          <a href="#booking" style={{
-            display: window.innerWidth >= 768 ? 'inline-flex' : 'none',
+          <a href="#booking" className="nav-book-btn" style={{
             alignItems: 'center', background: 'var(--blue-deep)', color: '#fff',
             padding: '0.48rem 1.1rem', borderRadius: '4px',
             fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase'
           }}>{t.book}</a>
-          <button onClick={() => setMenuOpen(!menuOpen)} style={{
-            display: window.innerWidth >= 768 ? 'none' : 'flex',
+          <button onClick={() => setMenuOpen(!menuOpen)} className="nav-burger" style={{
             flexDirection: 'column', gap: '5px',
             background: 'none', border: 'none', cursor: 'pointer', padding: '4px'
           }}>
@@ -113,7 +123,7 @@ export default function Navbar({ lang, setLang }) {
               {label}
             </a>
           ))}
-          <Link to="/login" onClick={() => setMenuOpen(false)} style={{ color: 'var(--blue-bright)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Portal</Link>
+          <Link to="/login" onClick={() => setMenuOpen(false)} style={{ color: 'var(--blue-bright)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{t.portal}</Link>
         </div>
       )}
     </>

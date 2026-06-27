@@ -13,6 +13,7 @@ const translations = {
       { label: 'Services', href: '#services' },
     ],
     rights: 'All rights reserved.',
+    partnerPortal: 'Partner Portal',
   },
   gr: {
     desc: 'Ιδιωτικές μεταφορές στην Αθήνα και Αττική από τον Marjus Oruci. Τίμιες τιμές, πραγματική ακρίβεια.',
@@ -26,11 +27,13 @@ const translations = {
       { label: 'Υπηρεσίες', href: '#services' },
     ],
     rights: 'Με επιφύλαξη παντός δικαιώματος.',
+    partnerPortal: 'Πύλη Συνεργατών',
   }
 }
 
 export default function Footer({ lang }) {
   const t = translations[lang]
+  const year = new Date().getFullYear()
 
   const headingStyle = {
     display: 'block', fontSize: '0.62rem', letterSpacing: '0.2em',
@@ -97,7 +100,7 @@ export default function Footer({ lang }) {
               onMouseEnter={e => e.target.style.color = '#7ab3d9'}
               onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.52)'}
             >{lang === 'en' ? 'Terms of Service' : 'Όροι Υπηρεσίας'}</Link>
-            <Link to="/login" style={{ ...linkStyle, color: '#7ab3d9' }}>Partner Portal</Link>
+            <Link to="/login" style={{ ...linkStyle, color: '#7ab3d9' }}>{t.partnerPortal}</Link>
           </div>
 
         </div>
@@ -109,7 +112,7 @@ export default function Footer({ lang }) {
           justifyContent: 'space-between', alignItems: 'center'
         }}>
           <p style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)' }}>
-            © 2025 Marjus Oruci · MO Transfers4all Athens. {t.rights}
+            © {year} Marjus Oruci · MO Transfers4all Athens. {t.rights}
           </p>
           <a href="https://wa.me/306936475451" target="_blank" rel="noopener noreferrer"
             style={{ color: '#7ab3d9', fontSize: '0.72rem', textDecoration: 'none' }}>

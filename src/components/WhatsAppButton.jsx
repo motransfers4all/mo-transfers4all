@@ -1,18 +1,36 @@
 import { useState, useEffect } from 'react'
 
 const CONTACTS = [
-  { name: 'Marjus', phone: '306936475451', label: 'Contact Marjus' },
-  { name: 'Martin', phone: '306993605070', label: 'Contact Martin' },
-  { name: 'Roland', phone: '306979638475', label: 'Contact Roland' },
+  { name: 'Marjus', phone: '306936475451' },
+  { name: 'Martin', phone: '306993605070' },
+  { name: 'Roland', phone: '306979638475' },
 ]
 
-export default function WhatsAppButton() {
+const translations = {
+  en: {
+    headerPill: 'Chat with us on WhatsApp',
+    hint: 'Tap to open WhatsApp',
+    contact: (name) => `Contact ${name}`,
+    open: 'Contact us on WhatsApp',
+    close: 'Close WhatsApp menu',
+  },
+  gr: {
+    headerPill: 'Συνομιλήστε μαζί μας στο WhatsApp',
+    hint: 'Πατήστε για άνοιγμα WhatsApp',
+    contact: (name) => `Επικοινωνία με ${name}`,
+    open: 'Επικοινωνία μέσω WhatsApp',
+    close: 'Κλείσιμο μενού WhatsApp',
+  }
+}
+
+export default function WhatsAppButton({ lang }) {
   const [open, setOpen] = useState(false)
   const [pulse, setPulse] = useState(true)
+  const t = translations[lang] || translations.en
 
   useEffect(() => {
-    const t = setTimeout(() => setPulse(false), 4000)
-    return () => clearTimeout(t)
+    const tmr = setTimeout(() => setPulse(false), 4000)
+    return () => clearTimeout(tmr)
   }, [])
 
   return (
@@ -120,7 +138,7 @@ export default function WhatsAppButton() {
         {/* Contact list */}
         {open && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-end' }}>
-            <div className="wa-header-pill">Chat with us on WhatsApp</div>
+            <div className="wa-header-pill">{t.headerPill}</div>
             {CONTACTS.map((c, i) => (
               <a
                 key={c.phone}
@@ -128,7 +146,7 @@ export default function WhatsAppButton() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="wa-contact-card"
-                aria-label={c.label}
+                aria-label={t.contact(c.name)}
                 style={{ animationDelay: `${i * 0.07}s` }}
               >
                 <div className="wa-avatar">
@@ -138,7 +156,7 @@ export default function WhatsAppButton() {
                 </div>
                 <div>
                   <div className="wa-name">{c.name}</div>
-                  <div className="wa-hint">Tap to open WhatsApp</div>
+                  <div className="wa-hint">{t.hint}</div>
                 </div>
                 <span className="wa-arrow">→</span>
               </a>
@@ -150,7 +168,7 @@ export default function WhatsAppButton() {
         <button
           onClick={() => { setOpen(!open); setPulse(false) }}
           className="wa-main-btn"
-          aria-label={open ? 'Close WhatsApp menu' : 'Contact us on WhatsApp'}
+          aria-label={open ? t.close : t.open}
           aria-expanded={open}
         >
           {pulse && !open && <span className="wa-pulse-ring" />}

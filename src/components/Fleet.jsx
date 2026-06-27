@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const translations = {
   en: {
     tag: 'Our Vehicles', title: 'The', titleEm: 'Fleet',
@@ -20,6 +22,9 @@ const translations = {
 }
 
 function FleetCard({ name, cap, desc, features, photo, icon }) {
+  const [photoFailed, setPhotoFailed] = useState(false)
+  const showPhoto = photo && !photoFailed
+
   return (
     <div style={{
       background: '#fff', border: '1px solid var(--border)',
@@ -32,10 +37,22 @@ function FleetCard({ name, cap, desc, features, photo, icon }) {
       {/* Photo */}
       <div style={{
         height: '220px', position: 'relative', overflow: 'hidden',
-        background: photo ? `url(${photo}) center/cover no-repeat` : 'linear-gradient(135deg, var(--blue-deep), var(--blue-mid))',
+        background: showPhoto ? '#000' : 'linear-gradient(135deg, var(--blue-deep), var(--blue-mid))',
         display: 'flex', alignItems: 'center', justifyContent: 'center'
       }}>
-        {!photo && <span style={{ fontSize: '5rem', opacity: 0.2 }}>{icon}</span>}
+        {photo && (
+          <img
+            src={photo}
+            alt={name}
+            onError={() => setPhotoFailed(true)}
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%', objectFit: 'cover',
+              display: photoFailed ? 'none' : 'block'
+            }}
+          />
+        )}
+        {!showPhoto && <span style={{ fontSize: '5rem', opacity: 0.2 }}>{icon}</span>}
         <div style={{
           position: 'absolute', inset: 0,
           background: 'linear-gradient(to top, rgba(15,52,96,0.6) 0%, transparent 60%)'

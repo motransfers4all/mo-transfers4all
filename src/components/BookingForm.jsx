@@ -18,6 +18,7 @@ const translations = {
     taxi: 'Taxi — 1 to 4 Passengers', van: 'Van — 5 to 9 Passengers',
     select: '— Select vehicle —',
     privacy: '🔒 Your personal data is used exclusively for this booking and permanently deleted after your transfer.',
+    privacyLink: 'Privacy Policy',
     submit: 'Send Booking Request', sending: 'Sending...',
     success: '✅ Booking sent! We will contact you shortly.',
     error: '❌ An error occurred. Please call us directly.',
@@ -40,6 +41,7 @@ const translations = {
     taxi: 'Ταξί — 1 έως 4 Επιβάτες', van: 'Van — 5 έως 9 Επιβάτες',
     select: '— Επιλογή οχήματος —',
     privacy: '🔒 Τα προσωπικά σας δεδομένα χρησιμοποιούνται αποκλειστικά για αυτή την κράτηση και διαγράφονται μετά τη μεταφορά.',
+    privacyLink: 'Πολιτική Απορρήτου',
     submit: 'Αποστολή Αιτήματος', sending: 'Αποστολή...',
     success: '✅ Η κράτηση στάλθηκε! Θα επικοινωνήσουμε σύντομα.',
     error: '❌ Παρουσιάστηκε σφάλμα. Παρακαλώ καλέστε μας.',
@@ -294,7 +296,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
             </div>
 
             <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, borderLeft: '2px solid rgba(126,200,240,0.5)', padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.06)', borderRadius: '0 6px 6px 0', marginBottom: '1.2rem' }}>
-              {t.privacy} <a href="/privacy" style={{ color: '#7ec8f0' }}>Privacy Policy</a>
+              {t.privacy} <a href="/privacy" style={{ color: '#7ec8f0' }}>{t.privacyLink}</a>
             </div>
 
             <button type="submit" disabled={loading} style={{

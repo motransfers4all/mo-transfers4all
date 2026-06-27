@@ -13,12 +13,12 @@ export default function ProtectedRoute({ children, requiredRole }) {
   if (user === undefined) {
     return (
       <div style={{
-        minHeight: '100vh', background: 'var(--navy)',
+        minHeight: '100vh', background: 'var(--blue-deep, #0f3460)',
         display: 'flex', alignItems: 'center', justifyContent: 'center'
       }}>
         <div style={{
-          fontFamily: 'Cormorant Garamond, serif',
-          fontSize: '1.2rem', color: 'var(--gold)', letterSpacing: '0.2em'
+          fontFamily: 'Playfair Display, serif',
+          fontSize: '1.2rem', color: 'var(--blue-bright, #2980b9)', letterSpacing: '0.2em'
         }}>Loading...</div>
       </div>
     )
@@ -31,6 +31,7 @@ export default function ProtectedRoute({ children, requiredRole }) {
   if (requiredRole && user.role !== requiredRole) {
     if (user.role === 'admin') return <Navigate to="/admin" replace/>
     if (user.role === 'hotel') return <Navigate to="/hotel" replace/>
+    return <Navigate to="/login" replace/>
   }
 
   return children

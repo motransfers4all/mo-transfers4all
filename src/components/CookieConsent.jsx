@@ -2,15 +2,39 @@ import { useState, useEffect } from 'react'
 
 const COOKIE_KEY = 'mo-cookie-consent'
 
-export default function CookieConsent() {
+const translations = {
+  en: {
+    title: 'We use cookies',
+    bodyPre: 'We use cookies to improve your experience, remember your preferences, and analyse how our site is used. By accepting, you agree to our',
+    privacyLink: 'Privacy Policy',
+    bodyMid: 'and',
+    termsLink: 'Terms',
+    accept: 'Accept all cookies',
+    decline: 'Decline',
+    aria: 'Cookie consent',
+  },
+  gr: {
+    title: 'Χρησιμοποιούμε cookies',
+    bodyPre: 'Χρησιμοποιούμε cookies για να βελτιώσουμε την εμπειρία σας, να θυμόμαστε τις προτιμήσεις σας και να αναλύουμε τη χρήση του ιστότοπου. Αποδεχόμενοι, συμφωνείτε με την',
+    privacyLink: 'Πολιτική Απορρήτου',
+    bodyMid: 'και τους',
+    termsLink: 'Όρους',
+    accept: 'Αποδοχή όλων των cookies',
+    decline: 'Απόρριψη',
+    aria: 'Συναίνεση cookies',
+  }
+}
+
+export default function CookieConsent({ lang }) {
   const [visible, setVisible] = useState(false)
   const [leaving, setLeaving] = useState(false)
+  const t = translations[lang] || translations.en
 
   useEffect(() => {
     const stored = localStorage.getItem(COOKIE_KEY)
     if (!stored) {
-      const t = setTimeout(() => setVisible(true), 1200)
-      return () => clearTimeout(t)
+      const tmr = setTimeout(() => setVisible(true), 1200)
+      return () => clearTimeout(tmr)
     }
   }, [])
 
@@ -133,7 +157,7 @@ export default function CookieConsent() {
         }
       `}</style>
 
-      <div className={`cookie-banner${leaving ? ' leaving' : ''}`} role="dialog" aria-label="Cookie consent">
+      <div className={`cookie-banner${leaving ? ' leaving' : ''}`} role="dialog" aria-label={t.aria}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.7rem' }}>
           <div className="cookie-icon-wrap">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -143,25 +167,24 @@ export default function CookieConsent() {
           <div style={{ flex: 1 }}>
             <div className="cookie-title">
               <span className="cookie-dot" />
-              We use cookies
+              {t.title}
             </div>
           </div>
         </div>
 
         <p className="cookie-body">
-          We use cookies to improve your experience, remember your preferences, and analyse how our site is used.
-          By accepting, you agree to our{' '}
-          <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-          {' '}and{' '}
-          <a href="/terms" target="_blank" rel="noopener noreferrer">Terms</a>.
+          {t.bodyPre}{' '}
+          <a href="/privacy" target="_blank" rel="noopener noreferrer">{t.privacyLink}</a>
+          {' '}{t.bodyMid}{' '}
+          <a href="/terms" target="_blank" rel="noopener noreferrer">{t.termsLink}</a>.
         </p>
 
         <div style={{ display: 'flex', gap: '0.6rem', marginTop: '1rem', alignItems: 'center' }}>
           <button className="cookie-btn-accept" onClick={() => dismiss('accepted')}>
-            Accept all cookies
+            {t.accept}
           </button>
           <button className="cookie-btn-decline" onClick={() => dismiss('declined')}>
-            Decline
+            {t.decline}
           </button>
         </div>
       </div>
