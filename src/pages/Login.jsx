@@ -3,32 +3,26 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [loading, setLoading]   = useState(false)
+  const [error, setError]       = useState(null)
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-      if (error) throw new Error('Auth error: ' + error.message)
+      if (error) throw new Error(error.message)
 
       const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', data.user.id)
-        .single()
-
-      if (profileError) throw new Error('Profile error: ' + profileError.message)
+        .from('profiles').select('role').eq('id', data.user.id).single()
+      if (profileError) throw new Error(profileError.message)
 
       if (profile.role === 'admin') navigate('/admin')
       else if (profile.role === 'hotel') navigate('/hotel')
-
     } catch (err) {
       setError(err.message)
     }
@@ -36,192 +30,240 @@ export default function Login() {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #050c16 0%, #0a1e35 40%, #0f3460 100%)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: '1.5rem',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Decorative background elements */}
-      <div style={{
-        position: 'absolute', top: '-20%', right: '-10%',
-        width: '600px', height: '600px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(41,128,185,0.12) 0%, transparent 70%)',
-        pointerEvents: 'none'
-      }}/>
-      <div style={{
-        position: 'absolute', bottom: '-10%', left: '-5%',
-        width: '400px', height: '400px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%)',
-        pointerEvents: 'none'
-      }}/>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap');
 
-      <div style={{ width: '100%', maxWidth: '440px', position: 'relative', zIndex: 1 }}>
+        .login-page {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #eef5fb 0%, #f8fafc 50%, #d6e8f7 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.5rem;
+          font-family: 'Inter', sans-serif;
+        }
 
-        {/* Logo area */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '4px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #c9a84c, #2980b9)',
-            marginBottom: '1.2rem'
-          }}>
-            <img src="/logo.jpg" alt="MO Transfers4all" style={{
-              width: '80px', height: '80px', borderRadius: '50%',
-              objectFit: 'cover', display: 'block',
-              border: '3px solid #050c16'
-            }}/>
+        .login-wrap {
+          width: 100%;
+          max-width: 440px;
+        }
+
+        .login-brand {
+          text-align: center;
+          margin-bottom: 2.5rem;
+        }
+
+        .login-brand img {
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 3px solid var(--blue-bright, #2980b9);
+          box-shadow: 0 4px 20px rgba(41,128,185,0.25);
+          margin-bottom: 1rem;
+        }
+
+        .login-brand-name {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: var(--blue-deep, #0f3460);
+          letter-spacing: 0.02em;
+        }
+
+        .login-brand-sub {
+          font-size: 0.62rem;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+          color: var(--blue-bright, #2980b9);
+          font-weight: 600;
+          margin-top: 0.3rem;
+        }
+
+        .login-card {
+          background: #fff;
+          border-radius: 12px;
+          box-shadow: 0 4px 6px rgba(15,52,96,0.04), 0 12px 40px rgba(15,52,96,0.10);
+          border: 1px solid var(--border, #cfe0f0);
+          overflow: hidden;
+        }
+
+        .login-card-top {
+          height: 4px;
+          background: linear-gradient(90deg, var(--blue-deep, #0f3460), var(--blue-bright, #2980b9));
+        }
+
+        .login-card-body {
+          padding: 2.5rem 2rem 2rem;
+        }
+
+        .login-title {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.6rem;
+          font-weight: 600;
+          color: var(--blue-deep, #0f3460);
+          margin-bottom: 0.35rem;
+        }
+
+        .login-subtitle {
+          font-size: 0.82rem;
+          color: var(--text-light, #7a99b5);
+          margin-bottom: 2rem;
+          line-height: 1.5;
+        }
+
+        .login-label {
+          display: block;
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--blue-mid, #1a5276);
+          font-weight: 600;
+          margin-bottom: 0.45rem;
+        }
+
+        .login-field {
+          margin-bottom: 1.25rem;
+        }
+
+        .login-input {
+          width: 100%;
+          background: var(--blue-mist, #eef5fb);
+          border: 1.5px solid var(--border, #cfe0f0);
+          border-radius: 7px;
+          color: var(--text-dark, #0d2236);
+          font-family: 'Inter', sans-serif;
+          font-size: 0.9rem;
+          padding: 0.8rem 1rem;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+          box-sizing: border-box;
+        }
+
+        .login-input:focus {
+          border-color: var(--blue-bright, #2980b9);
+          background: #fff;
+          box-shadow: 0 0 0 3px rgba(41,128,185,0.12);
+        }
+
+        .login-input::placeholder {
+          color: var(--text-light, #7a99b5);
+        }
+
+        .login-error {
+          margin-bottom: 1.25rem;
+          padding: 0.75rem 1rem;
+          background: #fef2f2;
+          border: 1px solid #fecaca;
+          border-radius: 7px;
+          color: #dc2626;
+          font-size: 0.8rem;
+          line-height: 1.5;
+        }
+
+        .login-btn {
+          width: 100%;
+          background: var(--blue-deep, #0f3460);
+          color: #fff;
+          border: none;
+          border-radius: 7px;
+          padding: 0.9rem 1rem;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+          box-shadow: 0 2px 10px rgba(15,52,96,0.2);
+          margin-top: 0.5rem;
+        }
+
+        .login-btn:hover:not(:disabled) {
+          background: var(--blue-mid, #1a5276);
+          box-shadow: 0 4px 18px rgba(15,52,96,0.28);
+          transform: translateY(-1px);
+        }
+
+        .login-btn:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .login-back {
+          display: block;
+          text-align: center;
+          margin-top: 1.5rem;
+          font-size: 0.75rem;
+          color: var(--text-light, #7a99b5);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+
+        .login-back:hover {
+          color: var(--blue-bright, #2980b9);
+        }
+      `}</style>
+
+      <div className="login-page">
+        <div className="login-wrap">
+
+          <div className="login-brand">
+            <img src="/logo.jpg" alt="MO Transfers4all" />
+            <div className="login-brand-name">MO Transfers4all</div>
+            <div className="login-brand-sub">Partner Portal</div>
           </div>
-          <div style={{
-            fontFamily: 'Cormorant Garamond, Georgia, serif',
-            fontSize: '1.5rem', fontWeight: 600, color: '#ffffff',
-            letterSpacing: '0.08em'
-          }}>MO Transfers4all</div>
-          <div style={{
-            fontSize: '0.62rem', color: '#c9a84c',
-            letterSpacing: '0.28em', textTransform: 'uppercase',
-            marginTop: '0.35rem', fontWeight: 600
-          }}>Partner Portal · Athens</div>
-        </div>
 
-        {/* Card */}
-        <div style={{
-          background: 'rgba(255,255,255,0.04)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderTop: '2px solid #c9a84c',
-          borderRadius: '2px',
-          padding: '2.5rem 2.25rem',
-          boxShadow: '0 32px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)'
-        }}>
-          <h2 style={{
-            fontFamily: 'Cormorant Garamond, Georgia, serif',
-            fontSize: '1.6rem', fontWeight: 300, color: '#ffffff',
-            marginBottom: '0.4rem', letterSpacing: '0.02em'
-          }}>Welcome back</h2>
-          <p style={{ fontSize: '0.76rem', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem', lineHeight: 1.6 }}>
-            Sign in to access your booking portal.
-          </p>
+          <div className="login-card">
+            <div className="login-card-top" />
+            <div className="login-card-body">
+              <h1 className="login-title">Sign In</h1>
+              <p className="login-subtitle">Enter your credentials to access the booking portal.</p>
 
-          <form onSubmit={handleLogin}>
-            <div style={{ marginBottom: '1.25rem' }}>
-              <label style={{
-                display: 'block', fontSize: '0.6rem', letterSpacing: '0.22em',
-                textTransform: 'uppercase', color: '#c9a84c',
-                fontWeight: 600, marginBottom: '0.5rem'
-              }}>Email Address</label>
-              <input
-                type="email" required value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                style={{
-                  width: '100%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(201,168,76,0.25)',
-                  borderRadius: '2px',
-                  color: '#f0e6d0',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.88rem',
-                  padding: '0.85rem 1rem',
-                  outline: 'none',
-                  transition: 'border-color 0.2s, background 0.2s',
-                  boxSizing: 'border-box'
-                }}
-                onFocus={e => { e.target.style.borderColor = 'rgba(201,168,76,0.6)'; e.target.style.background = 'rgba(255,255,255,0.07)' }}
-                onBlur={e => { e.target.style.borderColor = 'rgba(201,168,76,0.25)'; e.target.style.background = 'rgba(255,255,255,0.05)' }}
-              />
+              <form onSubmit={handleLogin}>
+                <div className="login-field">
+                  <label className="login-label">Email</label>
+                  <input
+                    className="login-input"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div className="login-field">
+                  <label className="login-label">Password</label>
+                  <input
+                    className="login-input"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                  />
+                </div>
+
+                {error && (
+                  <div className="login-error">{error}</div>
+                )}
+
+                <button className="login-btn" type="submit" disabled={loading}>
+                  {loading ? 'Signing in…' : 'Sign In'}
+                </button>
+              </form>
             </div>
+          </div>
 
-            <div style={{ marginBottom: '1.75rem' }}>
-              <label style={{
-                display: 'block', fontSize: '0.6rem', letterSpacing: '0.22em',
-                textTransform: 'uppercase', color: '#c9a84c',
-                fontWeight: 600, marginBottom: '0.5rem'
-              }}>Password</label>
-              <input
-                type="password" required value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
-                style={{
-                  width: '100%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(201,168,76,0.25)',
-                  borderRadius: '2px',
-                  color: '#f0e6d0',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.88rem',
-                  padding: '0.85rem 1rem',
-                  outline: 'none',
-                  transition: 'border-color 0.2s, background 0.2s',
-                  boxSizing: 'border-box'
-                }}
-                onFocus={e => { e.target.style.borderColor = 'rgba(201,168,76,0.6)'; e.target.style.background = 'rgba(255,255,255,0.07)' }}
-                onBlur={e => { e.target.style.borderColor = 'rgba(201,168,76,0.25)'; e.target.style.background = 'rgba(255,255,255,0.05)' }}
-              />
-            </div>
-
-            {error && (
-              <div style={{
-                marginBottom: '1.25rem', padding: '0.85rem 1rem',
-                background: 'rgba(248,113,113,0.08)',
-                border: '1px solid rgba(248,113,113,0.25)',
-                borderRadius: '2px',
-                color: '#f87171', fontSize: '0.78rem', lineHeight: 1.5
-              }}>⚠ {error}</div>
-            )}
-
-            <button type="submit" disabled={loading} style={{
-              width: '100%',
-              background: loading ? 'rgba(201,168,76,0.5)' : 'linear-gradient(135deg, #c9a84c, #b8932e)',
-              color: '#050c16',
-              border: 'none', borderRadius: '2px',
-              padding: '1rem',
-              fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-              fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'opacity 0.2s, transform 0.1s',
-              boxShadow: loading ? 'none' : '0 4px 20px rgba(201,168,76,0.3)'
-            }}
-              onMouseEnter={e => { if (!loading) e.target.style.opacity = '0.9' }}
-              onMouseLeave={e => { e.target.style.opacity = '1' }}
-            >
-              {loading ? (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: 'spin 1s linear infinite' }}>
-                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                  </svg>
-                  Signing in...
-                </span>
-              ) : 'Sign In'}
-            </button>
-          </form>
-        </div>
-
-        <div style={{ textAlign: 'center', marginTop: '1.75rem' }}>
-          <a href="/" style={{
-            fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)',
-            textDecoration: 'none', letterSpacing: '0.05em',
-            transition: 'color 0.2s',
-            display: 'inline-flex', alignItems: 'center', gap: '0.4rem'
-          }}
-            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.65)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            Back to main website
-          </a>
+          <a href="/" className="login-back">← Back to website</a>
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      `}</style>
-    </div>
+    </>
   )
 }
