@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
+const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_PLACES_KEY
 
 const translations = {
   en: {
@@ -63,9 +63,9 @@ function AutocompleteInput({ placeholder, value, onChange }) {
     if (val.length < 2) { setResults([]); setOpen(false); return }
     timer.current = setTimeout(async () => {
       try {
-        const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(val)}.json?proximity=23.7275,37.9838&language=en&limit=6&access_token=${MAPBOX_TOKEN}`)
+        const res = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(val)}&components=country:gr&location=37.9838,23.7275&radius=50000&language=en&key=${GOOGLE_KEY}`)
         const data = await res.json()
-        setResults(data.features || [])
+        setResults(data.predictions || [])
         setOpen(true)
       } catch { setOpen(false) }
     }, 300)
@@ -97,10 +97,10 @@ function AutocompleteInput({ placeholder, value, onChange }) {
           boxShadow: '0 8px 24px rgba(15,52,96,0.1)'
         }}>
           {results.map((f, i) => {
-            const main = f.text
-            const sub = f.place_name.replace(f.text + ', ', '')
+            const main = f.structured_formatting.main_text
+            const sub = f.structured_formatting.secondary_text
             return (
-              <div key={i} onMouseDown={() => { onChange(f.place_name); setOpen(false) }}
+              <div key={i} onMouseDown={() => { onChange(f.description); setOpen(false) }}
                 style={{ padding: '0.7rem 1rem', cursor: 'pointer', borderBottom: '1px solid var(--border)', fontSize: '0.78rem' }}
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--blue-mist)'}
                 onMouseLeave={e => e.currentTarget.style.background = '#fff'}
