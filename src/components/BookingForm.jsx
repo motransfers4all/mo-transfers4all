@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useGoogleAutocomplete } from '../lib/useGooglePlaces'
 const translations = {
@@ -123,6 +123,12 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState(null)
   const [focused, setFocused] = useState({})
+
+  useEffect(() => {
+    if (prefillPickup || prefillDropoff) {
+      setForm(f => ({ ...f, pickup: prefillPickup || f.pickup, dropoff: prefillDropoff || f.dropoff }))
+    }
+  }, [prefillPickup, prefillDropoff])
 
   const inputStyle = (field) => ({
     width: '100%', padding: '0.72rem 1rem',
