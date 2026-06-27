@@ -17,7 +17,7 @@ const STATUS = {
 
 const SOURCE = {
   website: { bg: '#eff6ff', color: '#1e40af', border: '#bfdbfe' },
-  hotel:   { bg: '#f0f9ff', color: '#0369a1', border: '#bae6fd' },
+  hotel:   { bg: '#fff7ed', color: '#c2410c', border: '#fed7aa' },
 }
 
 const playNotification = () => {
@@ -831,7 +831,7 @@ export default function AdminDashboard() {
                         <>
                           <div className="adm-cal-dots">
                             {dayBookings.slice(0, 2).map(b => (
-                              <div key={b.id} className="adm-cal-dot" style={{ background: b.source === 'website' ? '#2980b9' : '#0369a1', opacity: 0.75 }} />
+                              <div key={b.id} className="adm-cal-dot" style={{ background: b.source === 'website' ? '#2980b9' : '#c2410c', opacity: 0.75 }} />
                             ))}
                           </div>
                           <div className="adm-cal-count">{dayBookings.length} {t.bookings}</div>
@@ -848,7 +848,7 @@ export default function AdminDashboard() {
                   {lang === 'gr' ? 'Ιστοσελίδα' : 'Website'}
                 </div>
                 <div className="adm-legend-item">
-                  <div className="adm-legend-dot" style={{ background: '#0369a1' }} />
+                  <div className="adm-legend-dot" style={{ background: '#c2410c' }} />
                   {lang === 'gr' ? 'Ξενοδοχείο' : 'Hotel'}
                 </div>
               </div>
