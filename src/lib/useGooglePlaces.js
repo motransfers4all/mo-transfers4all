@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+
 const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_PLACES_KEY
 let loadPromise = null
 
@@ -20,7 +22,7 @@ function loadSDK() {
 }
 
 export function useGoogleAutocomplete(onChange) {
-  const serviceRef = { current: null }
+  const serviceRef = useRef(null)
 
   const getService = async () => {
     await loadSDK()
