@@ -134,7 +134,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
   })
 
   const labelStyle = {
-    fontSize: '0.7rem', color: 'var(--blue-deep)',
+    fontSize: '0.7rem', color: 'rgba(255,255,255,0.75)',
     fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.38rem'
   }
 
@@ -180,135 +180,151 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
   }
 
   return (
-    <section id="booking" style={{ padding: '88px 1.5rem', background: 'var(--off-white)' }}>
-      <div className="container">
-        <div className="section-header reveal">
-          <span className="section-tag">{t.tag}</span>
-          <h2 className="section-title">{t.title} <em>{t.titleEm}</em></h2>
-          <div className="blue-line"/>
+    <section id="booking" style={{ padding: '88px 1.5rem', background: 'var(--blue-deep)' }}>
+      <style>{`
+        .booking-form-grid input,
+        .booking-form-grid select,
+        .booking-form-grid textarea {
+          color: #0f3460 !important;
+          background: #fff !important;
+        }
+        .booking-form-grid input::placeholder { color: #94aec4; }
+        .booking-perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+        @media (max-width: 700px) {
+          .booking-perks { grid-template-columns: 1fr; gap: 0.85rem; }
+        }
+      `}</style>
+
+      <div className="container" style={{ maxWidth: '680px' }}>
+
+        {/* Header */}
+        <div className="section-header reveal" style={{ marginBottom: '2.5rem' }}>
+          <span className="section-tag" style={{ color: 'rgba(255,255,255,0.7)', borderColor: 'rgba(255,255,255,0.2)' }}>{t.tag}</span>
+          <h2 className="section-title" style={{ color: '#fff' }}>{t.title} <em style={{ color: '#7ec8f0' }}>{t.titleEm}</em></h2>
+          <div className="blue-line" style={{ background: 'linear-gradient(90deg,#7ec8f0,rgba(126,200,240,0.2))' }}/>
         </div>
 
-        <div className="reveal" style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '3rem', alignItems: 'start' }}>
-
-          {/* Aside */}
-          <div>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.55rem', fontWeight: 600, color: 'var(--blue-deep)', lineHeight: 1.25, marginBottom: '1rem' }}>{t.asideTitle}</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-mid)', lineHeight: 1.8, marginBottom: '1.8rem' }}>{t.asideSub}</p>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-              {t.perks.map((p, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '0.82rem', color: 'var(--text-mid)', lineHeight: 1.55 }}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--blue-mist)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0 }}>{p.icon}</div>
-                  <div>
-                    <span style={{ fontWeight: 600, color: 'var(--blue-deep)', display: 'block', fontSize: '0.78rem', marginBottom: '0.1rem' }}>{p.label}</span>
-                    {p.desc}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Form card */}
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '10px', padding: '2.4rem 2rem' }}>
-            <form onSubmit={handleSubmit}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem', marginBottom: '1.2rem' }}>
-
-                <div>
-                  <label style={labelStyle}>{t.name}</label>
-                  <input required style={inputStyle('name')} value={form.name} placeholder="John Smith"
-                    onChange={e => setForm({...form, name: e.target.value})}
-                    onFocus={() => setFocused({...focused, name: true})}
-                    onBlur={() => setFocused({...focused, name: false})}/>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>{t.phone}</label>
-                  <input required style={inputStyle('phone')} type="tel" value={form.phone} placeholder="+30 6xx xxx xxxx"
-                    onChange={e => setForm({...form, phone: e.target.value})}
-                    onFocus={() => setFocused({...focused, phone: true})}
-                    onBlur={() => setFocused({...focused, phone: false})}/>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>{t.email}</label>
-                  <input required style={inputStyle('email')} type="email" value={form.email} placeholder="your@email.com"
-                    onChange={e => setForm({...form, email: e.target.value})}
-                    onFocus={() => setFocused({...focused, email: true})}
-                    onBlur={() => setFocused({...focused, email: false})}/>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>{t.vehicle}</label>
-                  <select required style={inputStyle('vehicle')} value={form.vehicle}
-                    onChange={e => setForm({...form, vehicle: e.target.value})}
-                    onFocus={() => setFocused({...focused, vehicle: true})}
-                    onBlur={() => setFocused({...focused, vehicle: false})}>
-                    <option value="">{t.select}</option>
-                    <option value="Taxi (1-4 Επιβάτες)">{t.taxi}</option>
-                    <option value="Van (5-9 Επιβάτες)">{t.van}</option>
-                  </select>
-                </div>
-
-                <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={labelStyle}>{t.pickup}</label>
-                  <AutocompleteInput placeholder={t.pickupPh} value={form.pickup} onChange={val => setForm({...form, pickup: val})}/>
-                </div>
-
-                <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={labelStyle}>{t.dropoff}</label>
-                  <AutocompleteInput placeholder={t.dropoffPh} value={form.dropoff} onChange={val => setForm({...form, dropoff: val})}/>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>{t.date}</label>
-                  <input required style={inputStyle('date')} type="date" value={form.date}
-                    onChange={e => setForm({...form, date: e.target.value})}
-                    onFocus={() => setFocused({...focused, date: true})}
-                    onBlur={() => setFocused({...focused, date: false})}/>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>{t.time}</label>
-                  <input required style={inputStyle('time')} type="time" value={form.time}
-                    onChange={e => setForm({...form, time: e.target.value})}
-                    onFocus={() => setFocused({...focused, time: true})}
-                    onBlur={() => setFocused({...focused, time: false})}/>
-                </div>
-
-                <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={labelStyle}>{t.notes}</label>
-                  <input style={inputStyle('notes')} value={form.notes} placeholder="e.g. A3 601, large luggage..."
-                    onChange={e => setForm({...form, notes: e.target.value})}
-                    onFocus={() => setFocused({...focused, notes: true})}
-                    onBlur={() => setFocused({...focused, notes: false})}/>
-                </div>
-
-              </div>
-
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-light)', lineHeight: 1.6, borderLeft: '2px solid var(--blue-bright)', padding: '0.75rem 1rem', background: 'var(--blue-mist)', borderRadius: '0 6px 6px 0', marginBottom: '1.2rem' }}>
-                {t.privacy} <a href="/privacy" style={{ color: 'var(--blue-bright)' }}>Privacy Policy</a>
-              </div>
-
-              <button type="submit" disabled={loading} style={{
-                width: '100%', background: 'var(--blue-deep)', color: '#fff',
-                border: 'none', padding: '1rem', borderRadius: '6px',
-                fontFamily: 'Inter, sans-serif', fontSize: '0.78rem',
-                fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
-                cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.6 : 1,
-                boxShadow: '0 4px 18px rgba(15,52,96,0.24)', transition: 'all 0.2s'
-              }}>{loading ? t.sending : t.submit}</button>
-
-              {msg && (
-                <div style={{
-                  marginTop: '1rem', padding: '0.75rem', textAlign: 'center',
-                  fontSize: '0.8rem', borderRadius: '6px',
-                  color: msg.type === 'success' ? '#16a34a' : '#dc2626',
-                  background: msg.type === 'success' ? '#f0fdf4' : '#fef2f2',
-                  border: `1px solid ${msg.type === 'success' ? '#bbf7d0' : '#fecaca'}`
-                }}>{msg.text}</div>
-              )}
-            </form>
-          </div>
+        {/* Description */}
+        <div className="reveal" style={{ marginBottom: '2rem' }}>
+          <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.4rem', fontWeight: 600, color: '#fff', lineHeight: 1.3, marginBottom: '0.75rem' }}>{t.asideTitle}</h3>
+          <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.8 }}>{t.asideSub}</p>
         </div>
+
+        {/* Form card */}
+        <div className="reveal booking-form-grid" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '14px', padding: '2rem 1.75rem', backdropFilter: 'blur(8px)' }}>
+          <form onSubmit={handleSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.1rem', marginBottom: '1.1rem' }}>
+
+              <div>
+                <label style={labelStyle}>{t.name}</label>
+                <input required style={inputStyle('name')} value={form.name} placeholder="John Smith"
+                  onChange={e => setForm({...form, name: e.target.value})}
+                  onFocus={() => setFocused({...focused, name: true})}
+                  onBlur={() => setFocused({...focused, name: false})}/>
+              </div>
+
+              <div>
+                <label style={labelStyle}>{t.phone}</label>
+                <input required style={inputStyle('phone')} type="tel" value={form.phone} placeholder="+30 6xx xxx xxxx"
+                  onChange={e => setForm({...form, phone: e.target.value})}
+                  onFocus={() => setFocused({...focused, phone: true})}
+                  onBlur={() => setFocused({...focused, phone: false})}/>
+              </div>
+
+              <div>
+                <label style={labelStyle}>{t.email}</label>
+                <input required style={inputStyle('email')} type="email" value={form.email} placeholder="your@email.com"
+                  onChange={e => setForm({...form, email: e.target.value})}
+                  onFocus={() => setFocused({...focused, email: true})}
+                  onBlur={() => setFocused({...focused, email: false})}/>
+              </div>
+
+              <div>
+                <label style={labelStyle}>{t.vehicle}</label>
+                <select required style={inputStyle('vehicle')} value={form.vehicle}
+                  onChange={e => setForm({...form, vehicle: e.target.value})}
+                  onFocus={() => setFocused({...focused, vehicle: true})}
+                  onBlur={() => setFocused({...focused, vehicle: false})}>
+                  <option value="">{t.select}</option>
+                  <option value="Taxi (1-4 Επιβάτες)">{t.taxi}</option>
+                  <option value="Van (5-9 Επιβάτες)">{t.van}</option>
+                </select>
+              </div>
+
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={labelStyle}>{t.pickup}</label>
+                <AutocompleteInput placeholder={t.pickupPh} value={form.pickup} onChange={val => setForm({...form, pickup: val})}/>
+              </div>
+
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={labelStyle}>{t.dropoff}</label>
+                <AutocompleteInput placeholder={t.dropoffPh} value={form.dropoff} onChange={val => setForm({...form, dropoff: val})}/>
+              </div>
+
+              <div>
+                <label style={labelStyle}>{t.date}</label>
+                <input required style={inputStyle('date')} type="date" value={form.date}
+                  onChange={e => setForm({...form, date: e.target.value})}
+                  onFocus={() => setFocused({...focused, date: true})}
+                  onBlur={() => setFocused({...focused, date: false})}/>
+              </div>
+
+              <div>
+                <label style={labelStyle}>{t.time}</label>
+                <input required style={inputStyle('time')} type="time" value={form.time}
+                  onChange={e => setForm({...form, time: e.target.value})}
+                  onFocus={() => setFocused({...focused, time: true})}
+                  onBlur={() => setFocused({...focused, time: false})}/>
+              </div>
+
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={labelStyle}>{t.notes}</label>
+                <input style={inputStyle('notes')} value={form.notes} placeholder="e.g. A3 601, large luggage..."
+                  onChange={e => setForm({...form, notes: e.target.value})}
+                  onFocus={() => setFocused({...focused, notes: true})}
+                  onBlur={() => setFocused({...focused, notes: false})}/>
+              </div>
+
+            </div>
+
+            <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, borderLeft: '2px solid rgba(126,200,240,0.5)', padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.06)', borderRadius: '0 6px 6px 0', marginBottom: '1.2rem' }}>
+              {t.privacy} <a href="/privacy" style={{ color: '#7ec8f0' }}>Privacy Policy</a>
+            </div>
+
+            <button type="submit" disabled={loading} style={{
+              width: '100%', background: 'linear-gradient(135deg,#2980b9,#1a5276)',
+              color: '#fff', border: 'none', padding: '1rem', borderRadius: '8px',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.78rem',
+              fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
+              cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.6 : 1,
+              boxShadow: '0 4px 18px rgba(0,0,0,0.3)', transition: 'all 0.2s'
+            }}>{loading ? t.sending : t.submit}</button>
+
+            {msg && (
+              <div style={{
+                marginTop: '1rem', padding: '0.75rem', textAlign: 'center',
+                fontSize: '0.8rem', borderRadius: '6px',
+                color: msg.type === 'success' ? '#86efac' : '#fca5a5',
+                background: msg.type === 'success' ? 'rgba(22,163,74,0.15)' : 'rgba(220,38,38,0.15)',
+                border: `1px solid ${msg.type === 'success' ? 'rgba(134,239,172,0.3)' : 'rgba(252,165,165,0.3)'}`
+              }}>{msg.text}</div>
+            )}
+          </form>
+        </div>
+
+        {/* Perks below */}
+        <div className="booking-perks reveal">
+          {t.perks.map((p, i) => (
+            <div key={i} style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '10px', padding: '1.1rem 1rem', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+              <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: 'rgba(126,200,240,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{p.icon}</div>
+              <div>
+                <span style={{ fontWeight: 600, color: '#7ec8f0', display: 'block', fontSize: '0.75rem', marginBottom: '0.2rem', letterSpacing: '0.02em' }}>{p.label}</span>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.62)', lineHeight: 1.55 }}>{p.desc}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   )
