@@ -68,6 +68,55 @@ const STATUS = {
   completed: { bg: '#f1f5f9', color: '#475569', border: '#cbd5e1' },
 }
 
+const T = {
+  en: {
+    portal: 'Hotel Portal', signOut: 'Sign Out',
+    newBooking: 'New Transfer Booking',
+    newBookingSub: 'Fill in the passenger details and transfer information below.',
+    passengerName: 'Passenger Name *', passengerNamePh: 'John Smith',
+    phone: 'Phone / WhatsApp *', phonePh: '+30 6xx xxx xxxx',
+    email: 'Email', emailPh: 'passenger@email.com',
+    vehicle: 'Vehicle *', selectVehicle: '— Select vehicle —',
+    taxi: 'Taxi — 1 to 4 Passengers', van: 'Van — 5 to 9 Passengers',
+    pickup: 'Pickup Location *', pickupPh: 'Airport / Hotel / Address',
+    dropoff: 'Drop-off Location *', dropoffPh: 'Destination',
+    date: 'Date *', time: 'Time *',
+    flight: 'Flight / Ship Number', flightPh: 'e.g. A3 601',
+    notes: 'Notes', notesPh: 'Special requests…',
+    submit: 'Submit Booking', submitting: 'Submitting…',
+    success: 'Booking submitted successfully.',
+    submittedTitle: 'Submitted Bookings',
+    submittedSub: 'All transfers submitted through this portal.',
+    loading: 'Loading bookings…', noBookings: 'No bookings submitted yet.',
+    colDate: 'Date', colTime: 'Time', colPassenger: 'Passenger', colPhone: 'Phone',
+    colPickup: 'Pickup', colDropoff: 'Drop-off', colVehicle: 'Vehicle', colStatus: 'Status',
+    pending: 'Pending', assigned: 'Assigned', completed: 'Completed',
+  },
+  gr: {
+    portal: 'Πύλη Ξενοδοχείου', signOut: 'Έξοδος',
+    newBooking: 'Νέα Κράτηση Μεταφοράς',
+    newBookingSub: 'Συμπληρώστε τα στοιχεία επιβάτη και τις πληροφορίες μεταφοράς παρακάτω.',
+    passengerName: 'Όνομα Επιβάτη *', passengerNamePh: 'Γιάννης Παπαδόπουλος',
+    phone: 'Τηλέφωνο / WhatsApp *', phonePh: '+30 6xx xxx xxxx',
+    email: 'Email', emailPh: 'epibatis@email.com',
+    vehicle: 'Όχημα *', selectVehicle: '— Επιλέξτε όχημα —',
+    taxi: 'Ταξί — 1 έως 4 Επιβάτες', van: 'Van — 5 έως 9 Επιβάτες',
+    pickup: 'Σημείο Παραλαβής *', pickupPh: 'Αεροδρόμιο / Ξενοδοχείο / Διεύθυνση',
+    dropoff: 'Σημείο Προορισμού *', dropoffPh: 'Προορισμός',
+    date: 'Ημερομηνία *', time: 'Ώρα *',
+    flight: 'Αριθμός Πτήσης / Πλοίου', flightPh: 'π.χ. A3 601',
+    notes: 'Σημειώσεις', notesPh: 'Ειδικά αιτήματα…',
+    submit: 'Υποβολή Κράτησης', submitting: 'Υποβολή…',
+    success: 'Η κράτηση υποβλήθηκε με επιτυχία.',
+    submittedTitle: 'Υποβληθείσες Κρατήσεις',
+    submittedSub: 'Όλες οι μεταφορές που υποβλήθηκαν μέσω αυτής της πύλης.',
+    loading: 'Φόρτωση κρατήσεων…', noBookings: 'Δεν έχουν υποβληθεί κρατήσεις ακόμη.',
+    colDate: 'Ημερομηνία', colTime: 'Ώρα', colPassenger: 'Επιβάτης', colPhone: 'Τηλέφωνο',
+    colPickup: 'Παραλαβή', colDropoff: 'Προορισμός', colVehicle: 'Όχημα', colStatus: 'Κατάσταση',
+    pending: 'Εκκρεμεί', assigned: 'Ανατέθηκε', completed: 'Ολοκληρώθηκε',
+  }
+}
+
 export default function HotelDashboard() {
   const navigate = useNavigate()
   const [user, setUser]           = useState(null)
@@ -80,6 +129,9 @@ export default function HotelDashboard() {
     pickup: '', dropoff: '', date: '', time: '',
     vehicle: '', notes: '', flight_number: ''
   })
+  const [lang, setLang] = useState(localStorage.getItem('mo-lang') || 'en')
+
+  const t = T[lang]
 
   useEffect(() => {
     getCurrentUser().then(u => {
@@ -103,7 +155,7 @@ export default function HotelDashboard() {
     if (error) {
       setMsg({ type: 'error', text: 'Error: ' + error.message })
     } else {
-      setMsg({ type: 'success', text: 'Booking submitted successfully.' })
+      setMsg({ type: 'success', text: t.success })
       setForm({ passenger_name: '', passenger_phone: '', passenger_email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '', flight_number: '' })
       fetchBookings()
     }
@@ -130,16 +182,59 @@ export default function HotelDashboard() {
         .htl-header {
           background: #fff;
           border-bottom: 1px solid #cfe0f0;
-          padding: 0 1.5rem;
-          height: 64px;
+          padding: 0.75rem 1.5rem;
+          min-height: 64px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 1rem;
+          flex-wrap: wrap;
+          gap: 0.75rem 1rem;
           position: sticky;
           top: 0;
           z-index: 100;
           box-shadow: 0 1px 6px rgba(15,52,96,0.06);
+        }
+
+        @media (max-width: 640px) {
+          .htl-header {
+            justify-content: center;
+            text-align: center;
+          }
+          .htl-header-actions {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+
+        .htl-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        }
+
+        .htl-lang-toggle {
+          display: flex;
+          border: 1px solid #cfe0f0;
+          border-radius: 6px;
+          overflow: hidden;
+        }
+
+        .htl-lang-btn {
+          background: transparent;
+          border: none;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.65rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          padding: 0.3rem 0.6rem;
+          cursor: pointer;
+          color: #7a99b5;
+          transition: background 0.15s, color 0.15s;
+        }
+
+        .htl-lang-btn.active {
+          background: #0f3460;
+          color: #fff;
         }
 
         .htl-brand {
@@ -423,11 +518,22 @@ export default function HotelDashboard() {
           <div className="htl-brand">
             <img src="/logo.jpg" alt="MO" />
             <div>
-              <div className="htl-brand-name">Hotel Portal</div>
+              <div className="htl-brand-name">{t.portal}</div>
               <div className="htl-brand-sub">MO Transfers4all · Athens</div>
             </div>
           </div>
-          <button className="htl-signout" onClick={async () => { await signOut(); navigate('/login') }}>Sign Out</button>
+          <div className="htl-header-actions">
+            <div className="htl-lang-toggle">
+              {['en','gr'].map(l => (
+                <button
+                  key={l}
+                  className={`htl-lang-btn${lang === l ? ' active' : ''}`}
+                  onClick={() => { setLang(l); localStorage.setItem('mo-lang', l) }}
+                >{l.toUpperCase()}</button>
+              ))}
+            </div>
+            <button className="htl-signout" onClick={async () => { await signOut(); navigate('/login') }}>{t.signOut}</button>
+          </div>
         </header>
 
         <main className="htl-main">
@@ -436,77 +542,77 @@ export default function HotelDashboard() {
           <div className="htl-card">
             <div className="htl-card-accent" />
             <div className="htl-card-body">
-              <h2 className="htl-card-title">New Transfer Booking</h2>
-              <p className="htl-card-subtitle">Fill in the passenger details and transfer information below.</p>
+              <h2 className="htl-card-title">{t.newBooking}</h2>
+              <p className="htl-card-subtitle">{t.newBookingSub}</p>
 
               <form onSubmit={handleSubmit}>
                 <div className="htl-form-grid">
 
                   <div className="htl-field">
-                    <label className="htl-label">Passenger Name *</label>
-                    <input className="htl-input" required placeholder="John Smith" {...f('passenger_name')} />
+                    <label className="htl-label">{t.passengerName}</label>
+                    <input className="htl-input" required placeholder={t.passengerNamePh} {...f('passenger_name')} />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Phone / WhatsApp *</label>
-                    <input className="htl-input" required type="tel" placeholder="+30 6xx xxx xxxx" {...f('passenger_phone')} />
+                    <label className="htl-label">{t.phone}</label>
+                    <input className="htl-input" required type="tel" placeholder={t.phonePh} {...f('passenger_phone')} />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Email</label>
-                    <input className="htl-input" type="email" placeholder="passenger@email.com" {...f('passenger_email')} />
+                    <label className="htl-label">{t.email}</label>
+                    <input className="htl-input" type="email" placeholder={t.emailPh} {...f('passenger_email')} />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Vehicle *</label>
+                    <label className="htl-label">{t.vehicle}</label>
                     <select className="htl-select" required value={form.vehicle} onChange={e => setForm({...form, vehicle: e.target.value})}>
-                      <option value="">— Select vehicle —</option>
-                      <option value="Taxi (1-4 Επιβάτες)">Taxi — 1 to 4 Passengers</option>
-                      <option value="Van (5-9 Επιβάτες)">Van — 5 to 9 Passengers</option>
+                      <option value="">{t.selectVehicle}</option>
+                      <option value="Taxi (1-4 Επιβάτες)">{t.taxi}</option>
+                      <option value="Van (5-9 Επιβάτες)">{t.van}</option>
                     </select>
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Pickup Location *</label>
+                    <label className="htl-label">{t.pickup}</label>
                     <AutocompleteInput
-                      placeholder="Airport / Hotel / Address"
+                      placeholder={t.pickupPh}
                       value={form.pickup}
                       onChange={val => setForm({...form, pickup: val})}
                     />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Drop-off Location *</label>
+                    <label className="htl-label">{t.dropoff}</label>
                     <AutocompleteInput
-                      placeholder="Destination"
+                      placeholder={t.dropoffPh}
                       value={form.dropoff}
                       onChange={val => setForm({...form, dropoff: val})}
                     />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Date *</label>
+                    <label className="htl-label">{t.date}</label>
                     <input className="htl-input" required type="date" {...f('date')} />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Time *</label>
+                    <label className="htl-label">{t.time}</label>
                     <input className="htl-input" required type="time" {...f('time')} />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Flight / Ship Number</label>
-                    <input className="htl-input" placeholder="e.g. A3 601" {...f('flight_number')} />
+                    <label className="htl-label">{t.flight}</label>
+                    <input className="htl-input" placeholder={t.flightPh} {...f('flight_number')} />
                   </div>
 
                   <div className="htl-field">
-                    <label className="htl-label">Notes</label>
-                    <input className="htl-input" placeholder="Special requests…" {...f('notes')} />
+                    <label className="htl-label">{t.notes}</label>
+                    <input className="htl-input" placeholder={t.notesPh} {...f('notes')} />
                   </div>
 
                   <div className="htl-full">
                     <button type="submit" className="htl-submit-btn" disabled={submitting}>
-                      {submitting ? 'Submitting…' : 'Submit Booking'}
+                      {submitting ? t.submitting : t.submit}
                     </button>
                   </div>
 
@@ -525,20 +631,20 @@ export default function HotelDashboard() {
           <div className="htl-card">
             <div className="htl-card-accent" />
             <div className="htl-card-body" style={{ paddingBottom: '0' }}>
-              <h2 className="htl-card-title">Submitted Bookings</h2>
-              <p className="htl-card-subtitle">All transfers submitted through this portal.</p>
+              <h2 className="htl-card-title">{t.submittedTitle}</h2>
+              <p className="htl-card-subtitle">{t.submittedSub}</p>
             </div>
 
             {loading ? (
-              <div className="htl-empty">Loading bookings…</div>
+              <div className="htl-empty">{t.loading}</div>
             ) : bookings.length === 0 ? (
-              <div className="htl-empty">No bookings submitted yet.</div>
+              <div className="htl-empty">{t.noBookings}</div>
             ) : (
               <div className="htl-table-wrap">
                 <table className="htl-table">
                   <thead>
                     <tr>
-                      {['Date','Time','Passenger','Phone','Pickup','Drop-off','Vehicle','Status'].map(h => (
+                      {[t.colDate, t.colTime, t.colPassenger, t.colPhone, t.colPickup, t.colDropoff, t.colVehicle, t.colStatus].map(h => (
                         <th key={h}>{h}</th>
                       ))}
                     </tr>
@@ -556,7 +662,7 @@ export default function HotelDashboard() {
                           <td className="truncate">{b.dropoff}</td>
                           <td>{b.vehicle}</td>
                           <td>
-                            <span className="htl-tag" style={{ background: st.bg, color: st.color, borderColor: st.border }}>{b.status}</span>
+                            <span className="htl-tag" style={{ background: st.bg, color: st.color, borderColor: st.border }}>{t[b.status] || b.status}</span>
                           </td>
                         </tr>
                       )
