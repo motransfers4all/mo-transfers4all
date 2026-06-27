@@ -1,7 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { getCurrentUser, signOut } from '../lib/auth'
+
+function usePWAInstall() {
+  const [prompt, setPrompt] = useState(null)
+  const [installed, setInstalled] = useState(false)
+  useEffect(() => {
+    const handler = (e) => { e.preventDefault(); setPrompt(e) }
+    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', () => setInstalled(true))
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+  const install = async () => {
+    if (!prompt) return
+    prompt.prompt()
+    const { outcome } = await prompt.userChoice
+    if (outcome === 'accepted') setInstalled(true)
+    setPrompt(null)
+  }
+  return { canInstall: !!prompt && !installed, install, installed }
+}
 
 const DRIVERS = [
   { value: 'marjus', label: 'Marjus', phone: '+30 693 647 5451' },
@@ -171,6 +190,8 @@ export default function AdminDashboard() {
   const dayHeaders = lang === 'gr'
     ? ['Κυρ','Δευ','Τρί','Τετ','Πέμ','Παρ','Σάβ']
     : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+
+  const { canInstall, install } = usePWAInstall()
 
   if (loading) return (
     <div style={{ minHeight: '100vh', background: '#eef5fb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -763,6 +784,14 @@ export default function AdminDashboard() {
             <button className="adm-btn primary" onClick={async () => { await signOut(); navigate('/login') }}>{t.signOut}</button>
           </div>
         </header>
+
+        {/* PWA install banner */}
+        {canInstall && (
+          <div style={{ background: 'var(--blue-deep)', color: '#fff', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ fontSize: '0.82rem' }}>📲 <strong>Install the app</strong> — add this to your home screen for instant access and booking notifications.</div>
+            <button onClick={install} style={{ background: '#fff', color: 'var(--blue-deep)', border: 'none', borderRadius: '6px', padding: '0.45rem 1.1rem', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>Install Now</button>
+          </div>
+        )}
 
         <main className="adm-main">
 
