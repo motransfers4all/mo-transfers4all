@@ -201,16 +201,28 @@ export default function AdminDashboard() {
         .adm-header {
           background: #fff;
           border-bottom: 1px solid #cfe0f0;
-          padding: 0 1.5rem;
-          height: 64px;
+          padding: 0.75rem 1.5rem;
+          min-height: 64px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 1rem;
+          flex-wrap: wrap;
+          gap: 0.75rem 1rem;
           position: sticky;
           top: 0;
           z-index: 100;
           box-shadow: 0 1px 6px rgba(15,52,96,0.06);
+        }
+
+        @media (max-width: 640px) {
+          .adm-header {
+            justify-content: center;
+            text-align: center;
+          }
+          .adm-header-actions {
+            width: 100%;
+            justify-content: center;
+          }
         }
 
         .adm-brand {
@@ -570,12 +582,15 @@ export default function AdminDashboard() {
         }
 
         .adm-cal-cell {
-          min-height: 78px;
+          height: 78px;
           padding: 0.45rem;
           border-radius: 6px;
           transition: background 0.12s;
           background: #f8fafc;
           border: 1px solid transparent;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
         }
 
         .adm-cal-cell.empty { background: transparent; border-color: transparent; }
@@ -599,6 +614,7 @@ export default function AdminDashboard() {
           font-weight: 500;
           color: #7a99b5;
           margin-bottom: 0.3rem;
+          flex-shrink: 0;
         }
 
         .adm-cal-cell.today .adm-cal-date {
@@ -606,17 +622,34 @@ export default function AdminDashboard() {
           font-weight: 700;
         }
 
+        .adm-cal-dots {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          overflow: hidden;
+          flex: 1;
+        }
+
         .adm-cal-dot {
           width: 100%;
           height: 5px;
           border-radius: 3px;
-          margin-bottom: 2px;
+          flex-shrink: 0;
         }
 
         .adm-cal-count {
           font-size: 0.58rem;
           color: #7a99b5;
-          margin-top: 3px;
+          margin-top: auto;
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 640px) {
+          .adm-cal-card { padding: 1rem 0.6rem; }
+          .adm-cal-cell { height: 62px; padding: 0.3rem; }
+          .adm-cal-date { font-size: 0.7rem; margin-bottom: 0.15rem; }
+          .adm-cal-count { font-size: 0.5rem; }
+          .adm-cal-day-header { font-size: 0.52rem; padding: 0.4rem 0 0.5rem; }
         }
 
         .adm-cal-legend {
@@ -979,9 +1012,11 @@ export default function AdminDashboard() {
                       <div className="adm-cal-date">{day}</div>
                       {dayBookings.length > 0 && (
                         <>
-                          {dayBookings.slice(0, 2).map(b => (
-                            <div key={b.id} className="adm-cal-dot" style={{ background: b.source === 'website' ? '#2980b9' : '#0369a1', opacity: 0.75 }} />
-                          ))}
+                          <div className="adm-cal-dots">
+                            {dayBookings.slice(0, 2).map(b => (
+                              <div key={b.id} className="adm-cal-dot" style={{ background: b.source === 'website' ? '#2980b9' : '#0369a1', opacity: 0.75 }} />
+                            ))}
+                          </div>
                           <div className="adm-cal-count">{dayBookings.length} {t.bookings}</div>
                         </>
                       )}

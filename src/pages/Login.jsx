@@ -135,10 +135,17 @@ export default function Login() {
           color: var(--text-dark, #0d2236);
           font-family: 'Inter', sans-serif;
           font-size: 0.9rem;
+          line-height: 1.4;
           padding: 0.8rem 1rem;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
           box-sizing: border-box;
+          vertical-align: middle;
+        }
+
+        .login-input[type="password"] {
+          font-family: Verdana, sans-serif;
+          letter-spacing: 0.15em;
         }
 
         .login-input:focus {
