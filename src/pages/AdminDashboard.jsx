@@ -81,7 +81,6 @@ export default function AdminDashboard() {
   const [bookings, setBookings]         = useState([])
   const [loading, setLoading]           = useState(true)
   const [selectedBooking, setSelectedBooking] = useState(null)
-  const [view, setView]                 = useState('list')
   const [filterStatus, setFilterStatus] = useState('all')
   const [filterDriver, setFilterDriver] = useState('all')
   const [currentMonth, setCurrentMonth] = useState(new Date())
@@ -165,7 +164,7 @@ export default function AdminDashboard() {
     const y = currentMonth.getFullYear()
     const m = String(currentMonth.getMonth() + 1).padStart(2, '0')
     const d = String(day).padStart(2, '0')
-    return bookings.filter(b => b.date === `${y}-${m}-${d}`)
+    return filtered.filter(b => b.date === `${y}-${m}-${d}`)
   }
 
   const monthName = currentMonth.toLocaleString(lang === 'gr' ? 'el-GR' : 'en', { month: 'long', year: 'numeric' })
@@ -186,7 +185,7 @@ export default function AdminDashboard() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700&display=swap');
 
         * { box-sizing: border-box; }
 
@@ -355,9 +354,11 @@ export default function AdminDashboard() {
         }
 
         .adm-stat-value {
-          font-family: 'Playfair Display', serif;
-          font-size: 2.2rem;
-          font-weight: 600;
+          font-family: 'Outfit', 'Inter', sans-serif;
+          font-size: 2.3rem;
+          font-weight: 700;
+          font-variant-numeric: tabular-nums;
+          letter-spacing: -0.02em;
           color: #0f3460;
           line-height: 1;
           margin-bottom: 0.3rem;
@@ -380,30 +381,6 @@ export default function AdminDashboard() {
           align-items: center;
         }
 
-        .adm-view-toggle {
-          display: flex;
-          border: 1px solid #cfe0f0;
-          border-radius: 6px;
-          overflow: hidden;
-        }
-
-        .adm-view-btn {
-          background: transparent;
-          border: none;
-          font-family: 'Inter', sans-serif;
-          font-size: 0.72rem;
-          font-weight: 500;
-          padding: 0.42rem 1rem;
-          cursor: pointer;
-          color: #7a99b5;
-          transition: background 0.15s, color 0.15s;
-        }
-
-        .adm-view-btn.active {
-          background: #0f3460;
-          color: #fff;
-        }
-
         .adm-select {
           background: #fff;
           border: 1px solid #cfe0f0;
@@ -419,69 +396,6 @@ export default function AdminDashboard() {
 
         .adm-select:focus { border-color: #2980b9; }
 
-        /* ── Table card ── */
-        .adm-card {
-          background: #fff;
-          border: 1px solid #cfe0f0;
-          border-radius: 10px;
-          box-shadow: 0 1px 4px rgba(15,52,96,0.05);
-          overflow: hidden;
-        }
-
-        .adm-empty {
-          padding: 3rem;
-          text-align: center;
-          color: #7a99b5;
-          font-size: 0.85rem;
-        }
-
-        .adm-table-wrap { overflow-x: auto; }
-
-        .adm-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 0.8rem;
-        }
-
-        .adm-table thead tr {
-          border-bottom: 1px solid #cfe0f0;
-          background: #f8fafc;
-        }
-
-        .adm-table th {
-          padding: 0.75rem 1rem;
-          text-align: left;
-          font-size: 0.6rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: #3a5a78;
-          font-weight: 700;
-          white-space: nowrap;
-        }
-
-        .adm-table tbody tr {
-          border-bottom: 1px solid #eef5fb;
-          transition: background 0.12s;
-        }
-
-        .adm-table tbody tr:last-child { border-bottom: none; }
-
-        .adm-table tbody tr:hover { background: #f4f8fc; }
-
-        .adm-table td {
-          padding: 0.72rem 1rem;
-          color: #3a5a78;
-          white-space: nowrap;
-        }
-
-        .adm-table td.primary { color: #0d2236; font-weight: 500; }
-
-        .adm-table td.truncate {
-          max-width: 150px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
         .adm-tag {
           display: inline-block;
           font-size: 0.6rem;
@@ -492,36 +406,6 @@ export default function AdminDashboard() {
           border-radius: 4px;
           border-width: 1px;
           border-style: solid;
-        }
-
-        .adm-inline-select {
-          background: #f4f8fc;
-          border: 1px solid #cfe0f0;
-          border-radius: 5px;
-          color: #0d2236;
-          font-family: 'Inter', sans-serif;
-          font-size: 0.73rem;
-          padding: 0.28rem 0.55rem;
-          outline: none;
-          cursor: pointer;
-        }
-
-        .adm-view-btn-cell {
-          background: transparent;
-          border: 1px solid #cfe0f0;
-          border-radius: 5px;
-          color: #2980b9;
-          font-family: 'Inter', sans-serif;
-          font-size: 0.65rem;
-          font-weight: 600;
-          padding: 0.28rem 0.7rem;
-          cursor: pointer;
-          transition: background 0.15s;
-          white-space: nowrap;
-        }
-
-        .adm-view-btn-cell:hover {
-          background: #eef5fb;
         }
 
         /* ── Calendar ── */
@@ -610,8 +494,10 @@ export default function AdminDashboard() {
         }
 
         .adm-cal-date {
+          font-family: 'Outfit', 'Inter', sans-serif;
           font-size: 0.8rem;
           font-weight: 500;
+          font-variant-numeric: tabular-nums;
           color: #7a99b5;
           margin-bottom: 0.3rem;
           flex-shrink: 0;
@@ -897,10 +783,6 @@ export default function AdminDashboard() {
 
           {/* Controls */}
           <div className="adm-controls">
-            <div className="adm-view-toggle">
-              <button className={`adm-view-btn${view === 'list' ? ' active' : ''}`} onClick={() => setView('list')}>{t.list}</button>
-              <button className={`adm-view-btn${view === 'calendar' ? ' active' : ''}`} onClick={() => setView('calendar')}>{t.calendar}</button>
-            </div>
             <select className="adm-select" value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
               <option value="all">{t.allStatus}</option>
               <option value="pending">{t.pending}</option>
@@ -914,73 +796,8 @@ export default function AdminDashboard() {
             <button className="adm-btn" onClick={fetchBookings}>↻ {t.refresh}</button>
           </div>
 
-          {/* LIST VIEW */}
-          {view === 'list' && (
-            <div className="adm-card">
-              {filtered.length === 0 ? (
-                <div className="adm-empty">{t.noBookings}</div>
-              ) : (
-                <div className="adm-table-wrap">
-                  <table className="adm-table">
-                    <thead>
-                      <tr>
-                        {[t.source, t.date, t.time, t.passenger, t.phone, t.pickup, t.dropoff, t.vehicle, t.driver, t.status, t.actions].map(h => (
-                          <th key={h}>{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filtered.map(b => {
-                        const sc = SOURCE[b.source] || SOURCE.website
-                        const st = STATUS[b.status] || STATUS.pending
-                        return (
-                          <tr key={b.id}>
-                            <td>
-                              <span className="adm-tag" style={{ background: sc.bg, color: sc.color, borderColor: sc.border }}>{b.source}</span>
-                            </td>
-                            <td className="primary">{b.date}</td>
-                            <td className="primary">{b.time}</td>
-                            <td className="primary">{b.passenger_name}</td>
-                            <td><a href={`tel:${b.passenger_phone}`} style={{ color: '#2980b9', textDecoration: 'none' }}>{b.passenger_phone}</a></td>
-                            <td className="truncate">{b.pickup}</td>
-                            <td className="truncate">{b.dropoff}</td>
-                            <td>{b.vehicle}</td>
-                            <td onClick={e => e.stopPropagation()}>
-                              <select
-                                className="adm-inline-select"
-                                value={b.assigned_to || ''}
-                                onChange={e => updateBooking(b.id, { assigned_to: e.target.value || null, status: e.target.value ? 'assigned' : 'pending' })}
-                              >
-                                <option value="">{t.unassigned}</option>
-                                {DRIVERS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
-                              </select>
-                            </td>
-                            <td onClick={e => e.stopPropagation()}>
-                              <select
-                                className="adm-inline-select"
-                                value={b.status}
-                                onChange={e => updateBooking(b.id, { status: e.target.value })}
-                              >
-                                <option value="pending">{t.pending}</option>
-                                <option value="assigned">{t.assigned}</option>
-                                <option value="completed">{t.completed}</option>
-                              </select>
-                            </td>
-                            <td>
-                              <button className="adm-view-btn-cell" onClick={e => { e.stopPropagation(); setSelectedBooking(b) }}>{t.view}</button>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          )}
-
           {/* CALENDAR VIEW */}
-          {view === 'calendar' && (
+          {(
             <div className="adm-cal-card">
               <div className="adm-cal-nav">
                 <button className="adm-cal-arrow" onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}>←</button>
