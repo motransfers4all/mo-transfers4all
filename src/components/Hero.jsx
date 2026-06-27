@@ -56,16 +56,17 @@ export default function Hero({ lang }) {
 
   return (
     <section style={{ minHeight: '100vh', display: 'flex', position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        .hero-photo-panel { position: absolute; right: 0; top: 0; bottom: 0; width: calc(100% - 500px); min-width: 280px; overflow: hidden; }
+        .hero-text-panel { position: relative; z-index: 2; width: 100%; max-width: 520px; background: #fff; padding: clamp(88px,11vw,126px) clamp(1.5rem,5.5vw,4.5rem) clamp(60px,7vw,88px); display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
+        @media (max-width: 767px) {
+          .hero-photo-panel { width: 100%; min-width: unset; }
+          .hero-text-panel { background: rgba(255,255,255,0.92); backdrop-filter: blur(2px); max-width: 100%; }
+        }
+      `}</style>
 
       {/* Left white panel */}
-      <div style={{
-        position: 'relative', zIndex: 2,
-        width: '100%', maxWidth: '520px',
-        background: '#fff',
-        padding: 'clamp(88px,11vw,126px) clamp(1.5rem,5.5vw,4.5rem) clamp(60px,7vw,88px)',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        minHeight: '100vh'
-      }}>
+      <div className="hero-text-panel">
         <div style={{
           fontSize: '0.6rem', letterSpacing: '0.32em', textTransform: 'uppercase',
           color: 'var(--blue-bright)', fontWeight: 600, marginBottom: '1rem',
@@ -126,7 +127,7 @@ export default function Hero({ lang }) {
       </div>
 
       {/* Right photo panel */}
-      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 'calc(100% - 500px)', minWidth: '280px', overflow: 'hidden' }}>
+      <div className="hero-photo-panel">
         {SLIDES.map((s, i) => (
           <div key={i} style={{
             position: 'absolute', inset: 0,
