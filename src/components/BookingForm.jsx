@@ -60,10 +60,10 @@ function AutocompleteInput({ placeholder, value, onChange }) {
     const val = e.target.value
     onChange(val)
     clearTimeout(timer.current)
-    if (val.length < 3) { setResults([]); setOpen(false); return }
+    if (val.length < 2) { setResults([]); setOpen(false); return }
     timer.current = setTimeout(async () => {
       try {
-        const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(val)}.json?country=gr&proximity=23.7275,37.9838&language=en&limit=5&access_token=${MAPBOX_TOKEN}`)
+        const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(val)}.json?proximity=23.7275,37.9838&language=en&limit=6&access_token=${MAPBOX_TOKEN}`)
         const data = await res.json()
         setResults(data.features || [])
         setOpen(true)
