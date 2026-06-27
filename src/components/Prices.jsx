@@ -24,9 +24,7 @@ const translations = {
         { route: 'Centre → Piraeus', taxi: '€30', van: 'On request', note: '' },
         { route: 'Piraeus → Centre', taxi: '€35', van: 'On request', note: '' },
       ],
-      local: [
-        { route: 'Local trips within Athens', taxi: '€15', van: 'On request', note: '' },
-      ]
+      local: []
     }
   },
   gr: {
@@ -54,9 +52,7 @@ const translations = {
         { route: 'Κέντρο → Πειραιάς', taxi: '€30', van: 'Κατόπιν συνεννόησης', note: '' },
         { route: 'Πειραιάς → Κέντρο', taxi: '€35', van: 'Κατόπιν συνεννόησης', note: '' },
       ],
-      local: [
-        { route: 'Τοπικές διαδρομές Αθήνας', taxi: '€15', van: 'Κατόπιν συνεννόησης', note: '' },
-      ]
+      local: []
     }
   }
 }
@@ -122,7 +118,6 @@ export default function Prices({ lang }) {
     { cat: t.airport, rows: t.routes.airport },
     { cat: t.coastal, rows: t.routes.coastal },
     { cat: t.port, rows: t.routes.port },
-    { cat: t.local, rows: t.routes.local },
   ]
 
   return (
