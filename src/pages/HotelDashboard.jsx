@@ -2,26 +2,24 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { getCurrentUser, signOut } from '../lib/auth'
-
-const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_PLACES_KEY
+import { useGoogleAutocomplete } from '../lib/useGooglePlaces'
 
 function AutocompleteInput({ placeholder, value, onChange }) {
   const [results, setResults] = useState([])
   const [open, setOpen] = useState(false)
   const timer = useRef(null)
+  const { getPredictions } = useGoogleAutocomplete()
 
   const handleInput = (e) => {
     const val = e.target.value
     onChange(val)
     clearTimeout(timer.current)
     if (val.length < 2) { setResults([]); setOpen(false); return }
-    timer.current = setTimeout(async () => {
-      try {
-        const res = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(val)}&components=country:gr&location=37.9838,23.7275&radius=50000&language=en&key=${GOOGLE_KEY}`)
-        const data = await res.json()
-        setResults(data.predictions || [])
-        setOpen(true)
-      } catch { setOpen(false) }
+    timer.current = setTimeout(() => {
+      getPredictions(val, (predictions) => {
+        setResults(predictions)
+        setOpen(predictions.length > 0)
+      })
     }, 300)
   }
 
