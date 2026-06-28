@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://mo-transfers4all.gr/sitemap.xml
