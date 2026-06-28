@@ -1,10 +1,21 @@
 import { useState, useEffect } from 'react'
 
+// One destination = one set of 3 local photos that cycle every few
+// seconds while that destination is showing. Drop your photos into
+// public/destinations/ using these exact filenames and they'll appear
+// automatically — no other code changes needed.
 const SLIDES = [
-  { url: 'https://images.unsplash.com/photo-1555993539-1732b0258235?w=1400&q=80', label: 'Acropolis, Athens' },
-  { url: 'https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?w=1400&q=80', label: 'Athens by night' },
-  { url: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80', label: 'Arriving in Greece' },
+  { label: 'Athens Airport', photos: ['/destinations/airport-1.jpg', '/destinations/airport-2.jpg', '/destinations/airport-3.jpg'] },
+  { label: 'Meteora', photos: ['/destinations/meteora-1.jpg', '/destinations/meteora-2.jpg', '/destinations/meteora-3.jpg'] },
+  { label: 'Cape Sounio', photos: ['/destinations/sounio-1.jpg', '/destinations/sounio-2.jpg', '/destinations/sounio-3.jpg'] },
+  { label: 'Kalamata', photos: ['/destinations/kalamata-1.jpg', '/destinations/kalamata-2.jpg', '/destinations/kalamata-3.jpg'] },
+  { label: 'Patra', photos: ['/destinations/patra-1.jpg', '/destinations/patra-2.jpg', '/destinations/patra-3.jpg'] },
+  { label: 'Piraeus Port', photos: ['/destinations/piraeus-1.jpg', '/destinations/piraeus-2.jpg', '/destinations/piraeus-3.jpg'] },
 ]
+
+// Flatten into one continuous list of photos for the hero carousel to
+// cycle through, in order, looping back to the start.
+const ALL_PHOTOS = SLIDES.flatMap(s => s.photos)
 
 const translations = {
   en: {
@@ -36,21 +47,11 @@ const translations = {
 export default function Hero({ lang }) {
   const t = translations[lang]
   const [idx, setIdx] = useState(0)
-  const [label, setLabel] = useState(SLIDES[0].label)
-  const [labelVisible, setLabelVisible] = useState(true)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setLabelVisible(false)
-      setTimeout(() => {
-        setIdx(prev => {
-          const next = (prev + 1) % SLIDES.length
-          setLabel(SLIDES[next].label)
-          return next
-        })
-        setLabelVisible(true)
-      }, 600)
-    }, 4000)
+      setIdx(prev => (prev + 1) % ALL_PHOTOS.length)
+    }, 3000)
     return () => clearInterval(timer)
   }, [])
 
@@ -61,7 +62,7 @@ export default function Hero({ lang }) {
         .hero-text-panel { position: relative; z-index: 2; width: 100%; max-width: 520px; background: #fff; padding: clamp(88px,11vw,126px) clamp(1.5rem,5.5vw,4.5rem) clamp(60px,7vw,88px); display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
         @media (max-width: 767px) {
           .hero-photo-panel { width: 100%; min-width: unset; }
-          .hero-text-panel { background: rgba(255,255,255,0.78); backdrop-filter: blur(1px); max-width: 100%; }
+          .hero-text-panel { background: rgba(255,255,255,0.94); backdrop-filter: blur(3px); max-width: 100%; }
         }
       `}</style>
 
@@ -128,43 +129,15 @@ export default function Hero({ lang }) {
 
       {/* Right photo panel */}
       <div className="hero-photo-panel">
-        {SLIDES.map((s, i) => (
-          <div key={i} style={{
+        {ALL_PHOTOS.map((url, i) => (
+          <div key={url} style={{
             position: 'absolute', inset: 0,
-            backgroundImage: `url('${s.url}')`,
+            backgroundImage: `url('${url}')`,
             backgroundSize: 'cover', backgroundPosition: 'center',
             opacity: i === idx ? 1 : 0,
             transition: 'opacity 1.2s ease'
           }}/>
         ))}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(90deg,rgba(255,255,255,0.10) 0%,transparent 20%), linear-gradient(to top,rgba(10,37,64,0.32) 0%,transparent 45%)'
-        }}/>
-
-        {/* Stat card */}
-        <div style={{
-          position: 'absolute', bottom: '2.5rem', right: '2rem',
-          background: 'rgba(10,37,64,0.86)', backdropFilter: 'blur(10px)',
-          borderRadius: '8px', padding: '1.1rem 1.4rem',
-          border: '1px solid rgba(255,255,255,0.11)', minWidth: '200px'
-        }}>
-          <div style={{ fontSize: '1.7rem', fontFamily: 'Playfair Display, serif', fontWeight: 700, color: '#fff', lineHeight: 1 }}>{t.stat1}</div>
-          <div style={{ fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#7ab3d9', marginTop: '0.28rem' }}>{t.stat1label}</div>
-          <div style={{ margin: '0.7rem 0', width: '100%', height: '1px', background: 'rgba(255,255,255,0.09)' }}/>
-          <div style={{ fontSize: '1.7rem', fontFamily: 'Playfair Display, serif', fontWeight: 700, color: '#fff', lineHeight: 1 }}>{t.stat2}</div>
-          <div style={{ fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#7ab3d9', marginTop: '0.28rem' }}>{t.stat2label}</div>
-        </div>
-
-        {/* Slide label */}
-        <div style={{
-          position: 'absolute', bottom: '2.5rem', left: '2rem',
-          fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.75)', fontWeight: 500,
-          background: 'rgba(10,37,64,0.55)', padding: '0.35rem 0.75rem',
-          borderRadius: '20px', backdropFilter: 'blur(6px)',
-          opacity: labelVisible ? 1 : 0, transition: 'opacity 0.5s'
-        }}>{label}</div>
       </div>
     </section>
   )
