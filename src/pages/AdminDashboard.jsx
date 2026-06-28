@@ -98,7 +98,10 @@ const subscribeToPush = async (userId) => {
   }
 
   const permission = await Notification.requestPermission()
-  if (permission !== 'granted') return false
+  if (permission !== 'granted') {
+    alert('Notification permission is currently: ' + permission + '. Check your browser/site settings to allow notifications.')
+    return false
+  }
 
   try {
     const registration = await navigator.serviceWorker.ready
