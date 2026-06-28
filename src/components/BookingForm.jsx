@@ -168,16 +168,11 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
       if (error) throw new Error('Booking error: ' + error.message)
 
-      try {
-        const message = `🚖 Νέα Κράτηση — MO Transfers4all\n\n👤 Όνομα: ${form.name}\n📞 Τηλέφωνο: ${form.phone}\n✉️ Email: ${form.email}\n🚗 Όχημα: ${form.vehicle}\n📍 Παραλαβή: ${form.pickup}\n🏁 Προορισμός: ${form.dropoff}\n📅 Ημερομηνία: ${form.date}\n⏰ Ώρα: ${form.time}\n📝 Σημειώσεις: ${form.notes || '—'}`
-        const apiKey = import.meta.env.VITE_CALLMEBOT_KEY
-        const phone = import.meta.env.VITE_FATHER_PHONE
-        if (apiKey && apiKey !== 'PENDING') {
-          await fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(message)}&apikey=${apiKey}`)
-        }
-      } catch (waErr) {
-        console.warn('WhatsApp notification failed:', waErr)
-      }
+      // WhatsApp notification is now sent server-side by the
+      // send-booking-push Edge Function (triggered by the bookings
+      // INSERT webhook), since browsers can't reliably call CallMeBot
+      // directly — its API doesn't return CORS headers, so the fetch()
+      // that used to be here was silently failing.
 
       setMsg({ type: 'success', text: t.success })
       setForm({ name: '', phone: '', email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '' })
