@@ -124,6 +124,7 @@ const subscribeToPush = async (userId) => {
     return true
   } catch (e) {
     console.error('Push subscription failed:', e)
+    alert('Push subscription error: ' + (e?.message || e))
     return false
   }
 }
