@@ -61,7 +61,7 @@ export default function Hero({ lang }) {
         .hero-text-panel { position: relative; z-index: 2; width: 100%; max-width: 520px; background: #fff; padding: clamp(88px,11vw,126px) clamp(1.5rem,5.5vw,4.5rem) clamp(60px,7vw,88px); display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
         @media (max-width: 767px) {
           .hero-photo-panel { width: 100%; min-width: unset; }
-          .hero-text-panel { background: rgba(255,255,255,0.92); backdrop-filter: blur(2px); max-width: 100%; }
+          .hero-text-panel { background: rgba(255,255,255,0.78); backdrop-filter: blur(1px); max-width: 100%; }
         }
       `}</style>
 
@@ -139,7 +139,7 @@ export default function Hero({ lang }) {
         ))}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(90deg,rgba(255,255,255,0.18) 0%,transparent 25%), linear-gradient(to top,rgba(10,37,64,0.55) 0%,transparent 50%)'
+          background: 'linear-gradient(90deg,rgba(255,255,255,0.10) 0%,transparent 20%), linear-gradient(to top,rgba(10,37,64,0.32) 0%,transparent 45%)'
         }}/>
 
         {/* Stat card */}
