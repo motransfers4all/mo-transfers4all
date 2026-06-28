@@ -149,8 +149,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
   const labelStyle = {
     fontSize: '0.7rem', color: 'rgba(255,255,255,0.75)',
-    fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.38rem',
-    minHeight: '1.95rem', lineHeight: 1.35
+    fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.38rem'
   }
 
   const handleSubmit = async (e) => {
