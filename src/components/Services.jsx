@@ -1,24 +1,24 @@
 const translations = {
   en: {
-    tag: 'What We Offer', title: 'Our', titleEm: 'Services',
+    tag: 'What We Offer', title: 'How We Can', titleEm: 'Help',
     items: [
-      { icon: '✈️', name: 'Airport Transfers', desc: 'We track your flight, meet you at arrivals, and wait if you\'re held up at customs.' },
-      { icon: '🚢', name: 'Port & Ferries', desc: 'Piraeus transfers for cruise passengers, island ferry connections and cargo pickups.' },
-      { icon: '🏛️', name: 'Sightseeing', desc: 'Acropolis, Plaka, Cape Sounio — explore at your own pace with a driver who knows the city.' },
-      { icon: '💼', name: 'Corporate', desc: 'Quiet, punctual and professional. Suitable for clients, executives and business events.' },
+      { icon: '✈️', name: 'Airport Pickups', desc: 'We track your flight, meet you at arrivals, and wait if you\'re held up at customs.' },
+      { icon: '🚢', name: 'Port & Ferries', desc: 'Piraeus rides for cruise passengers, island ferry connections and luggage pickups.' },
+      { icon: '🏛️', name: 'Sightseeing', desc: 'Acropolis, Plaka, Cape Sounio — see the city at your own pace, we know our way around.' },
+      { icon: '💼', name: 'Business Trips', desc: 'On time and no fuss — good for meetings, conferences or anything where punctuality matters.' },
       { icon: '🌊', name: 'Coastal Routes', desc: 'The Attic Riviera from Glyfada to Sounio — beaches, resorts and waterside restaurants.' },
-      { icon: '🕐', name: 'Any Hour', desc: '5am departures, midnight arrivals. Just book ahead and we\'ll be there.' },
+      { icon: '🕐', name: 'Any Hour', desc: '5am departures, midnight arrivals. Just call ahead and we\'ll be there.' },
     ]
   },
   gr: {
-    tag: 'Τι Προσφέρουμε', title: 'Οι', titleEm: 'Υπηρεσίες Μας',
+    tag: 'Τι Προσφέρουμε', title: 'Πώς Μπορούμε', titleEm: 'να Βοηθήσουμε',
     items: [
-      { icon: '✈️', name: 'Αεροδρόμιο', desc: 'Παρακολουθούμε την πτήση σας, σας παραλαμβάνουμε και περιμένουμε αν καθυστερήσετε.' },
-      { icon: '🚢', name: 'Λιμάνι & Ferry', desc: 'Μεταφορές Πειραιά για κρουαζιερόπλοια και ferry προς τα νησιά.' },
-      { icon: '🏛️', name: 'Αξιοθέατα', desc: 'Ακρόπολη, Πλάκα, Σούνιο — εξερευνήστε με έναν οδηγό που ξέρει την πόλη.' },
-      { icon: '💼', name: 'Εταιρικές', desc: 'Διακριτική, επαγγελματική υπηρεσία για στελέχη και εταιρικές εκδηλώσεις.' },
+      { icon: '✈️', name: 'Παραλαβή Αεροδρομίου', desc: 'Παρακολουθούμε την πτήση σας, σας παραλαμβάνουμε και περιμένουμε αν καθυστερήσετε.' },
+      { icon: '🚢', name: 'Λιμάνι & Ferry', desc: 'Διαδρομές Πειραιά για κρουαζιερόπλοια, σύνδεση με ferry προς τα νησιά και αποσκευές.' },
+      { icon: '🏛️', name: 'Αξιοθέατα', desc: 'Ακρόπολη, Πλάκα, Σούνιο — γνωρίστε την πόλη με τον δικό σας ρυθμό, ξέρουμε τους δρόμους.' },
+      { icon: '💼', name: 'Επαγγελματικές Μετακινήσεις', desc: 'Στην ώρα μας, χωρίς καθυστερήσεις — για συναντήσεις ή όπου η ακρίβεια έχει σημασία.' },
       { icon: '🌊', name: 'Παράκτιες Διαδρομές', desc: 'Αττική Ριβιέρα από Γλυφάδα ως Σούνιο — παραλίες, θέρετρα, εστιατόρια.' },
-      { icon: '🕐', name: 'Οποιαδήποτε Ώρα', desc: 'Αναχωρήσεις στις 5 πρωί, αφίξεις τα μεσάνυχτα. Κλείστε θέση και θα είμαστε εκεί.' },
+      { icon: '🕐', name: 'Οποιαδήποτε Ώρα', desc: 'Αναχωρήσεις στις 5 πρωί, αφίξεις τα μεσάνυχτα. Καλέστε μας και θα είμαστε εκεί.' },
     ]
   }
 }

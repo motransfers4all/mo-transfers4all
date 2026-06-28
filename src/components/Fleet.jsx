@@ -2,21 +2,21 @@ import { useState } from 'react'
 
 const translations = {
   en: {
-    tag: 'Our Vehicles', title: 'The', titleEm: 'Fleet',
-    taxiName: 'Executive Taxi', taxiCap: '1 – 4 Passengers',
-    taxiDesc: 'Premium sedan for individuals and small groups. Perfect for airport transfers, business meetings and city travel. Air conditioning, free Wi-Fi and bottled water included.',
-    vanName: 'Luxury Van', vanCap: '5 – 9 Passengers',
-    vanDesc: 'Spacious premium van for families, groups and corporate teams. Generous luggage capacity, panoramic windows and USB charging ports.',
-    features1: ['Climate control', 'Free Wi-Fi', 'Meet & greet', 'Bottled water'],
+    tag: 'Our Vehicles', title: 'Choose Your', titleEm: 'Ride',
+    taxiName: 'Taxi', taxiCap: '1 – 4 Passengers',
+    taxiDesc: 'A licensed taxi for individuals and small groups — airport runs, business trips or just getting around the city. Air conditioning and bottled water included.',
+    vanName: 'Van', vanCap: '5 – 9 Passengers',
+    vanDesc: 'A roomier van for families and bigger groups. Plenty of luggage space, comfortable seating, and room to relax on longer trips.',
+    features1: ['Air conditioning', 'Free Wi-Fi', 'Meet on arrival', 'Bottled water'],
     features2: ['Extra luggage space', 'Child seat available', 'USB charging', 'Panoramic windows'],
   },
   gr: {
-    tag: 'Τα Οχήματά Μας', title: 'Ο', titleEm: 'Στόλος Μας',
-    taxiName: 'Executive Taxi', taxiCap: '1 – 4 Επιβάτες',
-    taxiDesc: 'Premium sedan για άτομα και μικρές ομάδες. Ιδανικό για αεροδρόμιο, επαγγελματικά ταξίδια και αστικές μεταφορές. Κλιματισμός, δωρεάν Wi-Fi και εμφιαλωμένο νερό.',
-    vanName: 'Luxury Van', vanCap: '5 – 9 Επιβάτες',
-    vanDesc: 'Ευρύχωρο premium van για οικογένειες, ομάδες και εταιρικές αποστολές. Μεγάλη χωρητικότητα αποσκευών, πανοραμικά παράθυρα και θύρες USB.',
-    features1: ['Κλιματισμός', 'Δωρεάν Wi-Fi', 'Υπηρεσία υποδοχής', 'Εμφιαλωμένο νερό'],
+    tag: 'Τα Οχήματά Μας', title: 'Επιλέξτε το', titleEm: 'Όχημά σας',
+    taxiName: 'Ταξί', taxiCap: '1 – 4 Επιβάτες',
+    taxiDesc: 'Αδειούχο ταξί για άτομα και μικρές ομάδες — αεροδρόμιο, επαγγελματικές μετακινήσεις ή απλά για μετακινήσεις στην πόλη. Κλιματισμός και εμφιαλωμένο νερό.',
+    vanName: 'Van', vanCap: '5 – 9 Επιβάτες',
+    vanDesc: 'Ευρύχωρο van για οικογένειες και μεγαλύτερες παρέες. Άπλετος χώρος για αποσκευές, άνετα καθίσματα και χώρος να χαλαρώσετε σε μεγαλύτερες διαδρομές.',
+    features1: ['Κλιματισμός', 'Δωρεάν Wi-Fi', 'Υποδοχή στην άφιξη', 'Εμφιαλωμένο νερό'],
     features2: ['Επιπλέον χώρος αποσκευών', 'Παιδικό κάθισμα', 'Φόρτιση USB', 'Πανοραμικά παράθυρα'],
   }
 }
