@@ -153,12 +153,35 @@ export default function HotelDashboard() {
     setMsg(null)
     const { error } = await supabase.from('bookings').insert([{ ...form, source: 'hotel', status: 'pending' }])
     if (error) {
-      setMsg({ type: 'error', text: 'Error: ' + error.message })
-    } else {
-      setMsg({ type: 'success', text: t.success })
-      setForm({ passenger_name: '', passenger_phone: '', passenger_email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '', flight_number: '' })
-      fetchBookings()
+  setMsg({ type: 'error', text: 'Error: ' + error.message })
+} else {
+  // CallMeBot notification
+  try {
+    const message =
+      '🏨 Νέα Κράτηση (Ξενοδοχείο) — MO Transfers4all\n\n' +
+      '👤 Όνομα: ' + form.passenger_name + '\n' +
+      '📞 Τηλέφωνο: ' + form.passenger_phone + '\n' +
+      '📍 Παραλαβή: ' + form.pickup + '\n' +
+      '🏁 Προορισμός: ' + form.dropoff + '\n' +
+      '📅 Ημερομηνία: ' + form.date + '\n' +
+      '⏰ Ώρα: ' + form.time + '\n' +
+      '🚗 Όχημα: ' + form.vehicle + '\n' +
+      '✈️ Πτήση/Πλοίο: ' + (form.flight_number || '—') + '\n' +
+      '📝 Σημειώσεις: ' + (form.notes || '—')
+
+    const apiKey = import.meta.env.VITE_CALLMEBOT_KEY
+    const phone = import.meta.env.VITE_FATHER_PHONE
+    if (apiKey && apiKey !== 'PENDING') {
+      await fetch(`https://api.callmebot.com/whatsapp.php?phone=${phone}&text=${encodeURIComponent(message)}&apikey=${apiKey}`)
     }
+  } catch (waErr) {
+    console.warn('WhatsApp notification failed:', waErr)
+  }
+
+  setMsg({ type: 'success', text: '✅ Booking submitted successfully.' })
+  setForm({ passenger_name: '', passenger_phone: '', passenger_email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '', flight_number: '' })
+  fetchBookings()
+}
     setSubmitting(false)
   }
 
