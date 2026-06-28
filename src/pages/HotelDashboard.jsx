@@ -151,7 +151,7 @@ export default function HotelDashboard() {
     e.preventDefault()
     setSubmitting(true)
     setMsg(null)
-    const { error } = await supabase.from('bookings').insert([{ ...form, source: 'hotel', status: 'pending' }])
+    const { error } = await supabase.from('bookings').insert([{ ...form, source: 'hotel', status: 'pending', lang }])
     if (error) {
       setMsg({ type: 'error', text: 'Error: ' + error.message })
     } else {
