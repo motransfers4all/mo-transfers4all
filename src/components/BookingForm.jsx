@@ -224,24 +224,31 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
         {/* Form card */}
         <div className="reveal booking-form-grid" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '14px', padding: '2rem 1.75rem', backdropFilter: 'blur(8px)' }}>
           <form onSubmit={handleSubmit}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.1rem', marginBottom: '1.1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: '1.1rem', marginBottom: '1.1rem', alignItems: 'start' }}>
 
-              <div>
+              <div style={{ gridRow: 1, gridColumn: 1 }}>
                 <label style={labelStyle}>{t.name}</label>
+              </div>
+              <div style={{ gridRow: 1, gridColumn: 2 }}>
+                <label style={labelStyle}>{t.phone}</label>
+              </div>
+
+              <div style={{ gridRow: 2, gridColumn: 1 }}>
                 <input required style={inputStyle('name')} value={form.name} placeholder={t.namePh}
                   onChange={e => setForm({...form, name: e.target.value})}
                   onFocus={() => setFocused({...focused, name: true})}
                   onBlur={() => setFocused({...focused, name: false})}/>
               </div>
-
-              <div>
-                <label style={labelStyle}>{t.phone}</label>
+              <div style={{ gridRow: 2, gridColumn: 2 }}>
                 <input required style={inputStyle('phone')} type="tel" value={form.phone} placeholder={t.phonePh}
                   onChange={e => setForm({...form, phone: e.target.value})}
                   onFocus={() => setFocused({...focused, phone: true})}
                   onBlur={() => setFocused({...focused, phone: false})}/>
               </div>
 
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.1rem', marginBottom: '1.1rem' }}>
               <div>
                 <label style={labelStyle}>{t.email}</label>
                 <input required style={inputStyle('email')} type="email" value={form.email} placeholder="your@email.com"
