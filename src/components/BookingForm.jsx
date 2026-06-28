@@ -163,7 +163,8 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
         time: form.time,
         vehicle: form.vehicle,
         notes: form.notes,
-        status: 'pending'
+        status: 'pending',
+        lang: lang
       }])
 
       if (error) throw new Error('Booking error: ' + error.message)
