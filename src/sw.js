@@ -6,11 +6,15 @@ import { ExpirationPlugin } from 'workbox-expiration'
 // Injected at build time by vite-plugin-pwa (injectManifest strategy)
 precacheAndRoute(self.__WB_MANIFEST)
 
-// Keep the same Supabase runtime caching behavior as before
+// Cache only GET requests to Supabase (table reads). POST/PATCH/DELETE
+// (inserts, updates, auth calls) must never be intercepted by a caching
+// strategy — Workbox's cache.put() throws on non-GET requests, which
+// surfaced to users as "TypeError: Failed to fetch" on every booking
+// insert. NetworkFirst is only safe for idempotent reads.
 registerRoute(
-  ({ url }) => url.hostname.endsWith('.supabase.co'),
+  ({ url, request }) => request.method === 'GET' && url.hostname.endsWith('.supabase.co'),
   new NetworkFirst({
-    cacheName: 'supabase-cache',
+    cacheName: 'supabase-cache-v2',
     plugins: [
       new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 300 })
     ]
