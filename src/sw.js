@@ -1,7 +1,20 @@
-import { precacheAndRoute } from 'workbox-precaching'
+import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { NetworkFirst } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
+
+// Take over immediately on every deploy instead of waiting for every
+// open tab to fully close first. Without this, a new service worker can
+// sit "waiting" indefinitely on mobile (where tabs rarely get fully
+// closed), so visitors keep seeing the old cached version of the site
+// for days after a deploy, even though the new code is live on the
+// server.
+self.skipWaiting()
+self.addEventListener('activate', () => self.clients.claim())
+
+// Drop any precached files left over from a previous service worker
+// version once the new one takes over.
+cleanupOutdatedCaches()
 
 // Injected at build time by vite-plugin-pwa (injectManifest strategy)
 precacheAndRoute(self.__WB_MANIFEST)
