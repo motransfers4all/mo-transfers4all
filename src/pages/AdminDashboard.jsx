@@ -8,6 +8,12 @@ function usePWAInstall() {
   const [installed, setInstalled] = useState(false)
 
   useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.error('SW registration failed:', e))
+    }
+  }, [])
+
+  useEffect(() => {
     // Inject the admin-specific manifest so PWA start_url = /admin
     const existing = document.querySelector('link[rel="manifest"]')
     const link = existing || document.createElement('link')
@@ -75,6 +81,53 @@ const showBrowserNotification = (booking) => {
   else if (Notification.permission !== 'denied') Notification.requestPermission().then(p => { if (p === 'granted') send() })
 }
 
+// --- Push notifications (work even when the PWA is fully closed) ---
+const VAPID_PUBLIC_KEY = 'BEB_u5S-uAo0vy_e5fTIUSGue8FNQzJ2293An3y2myKNhjkh0PXAEkiqPHBgQ0l11sNmYoRRcnZ8276pD1hzMcM'
+
+const urlBase64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = window.atob(base64)
+  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)))
+}
+
+const subscribeToPush = async (userId) => {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    alert('Push notifications are not supported in this browser.')
+    return false
+  }
+
+  const permission = await Notification.requestPermission()
+  if (permission !== 'granted') return false
+
+  try {
+    const registration = await navigator.serviceWorker.ready
+
+    let subscription = await registration.pushManager.getSubscription()
+    if (!subscription) {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      })
+    }
+
+    const subJson = subscription.toJSON()
+
+    const { error } = await supabase.from('push_subscriptions').upsert({
+      user_id: userId,
+      endpoint: subJson.endpoint,
+      p256dh: subJson.keys.p256dh,
+      auth: subJson.keys.auth
+    }, { onConflict: 'endpoint' })
+
+    if (error) { console.error('Failed to save push subscription:', error); return false }
+    return true
+  } catch (e) {
+    console.error('Push subscription failed:', e)
+    return false
+  }
+}
+
 const T = {
   en: {
     title: 'Admin Dashboard', total: 'Total', pending: 'Pending',
@@ -116,6 +169,8 @@ export default function AdminDashboard() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDay, setSelectedDay]   = useState(null)
   const [lang, setLang]                 = useState(localStorage.getItem('mo-lang') || 'en')
+  const [currentUserId, setCurrentUserId] = useState(null)
+  const [pushEnabled, setPushEnabled]   = useState(false)
 
   const t = T[lang]
 
@@ -129,6 +184,8 @@ export default function AdminDashboard() {
         .from("profiles").select("role").eq("id", session.user.id).single()
 
       if (!profile || profile.role !== "admin") { navigate("/login"); return }
+
+      setCurrentUserId(session.user.id)
 
       const { data, error } = await supabase
         .from("bookings").select("*").order("date", { ascending: true })
@@ -803,7 +860,17 @@ export default function AdminDashboard() {
                 >{l.toUpperCase()}</button>
               ))}
             </div>
-            <button className="adm-btn" onClick={() => Notification.requestPermission()}>🔔 {t.enableAlerts}</button>
+            <button
+              className="adm-btn"
+              onClick={async () => {
+                const ok = await subscribeToPush(currentUserId)
+                setPushEnabled(ok)
+                if (ok) alert(lang === 'gr' ? '✅ Οι ειδοποιήσεις ενεργοποιήθηκαν!' : '✅ Push notifications enabled!')
+                else alert(lang === 'gr' ? 'Αποτυχία ενεργοποίησης ειδοποιήσεων.' : 'Failed to enable push notifications.')
+              }}
+            >
+              🔔 {pushEnabled ? (lang === 'gr' ? 'Ενεργές Ειδοποιήσεις ✓' : 'Alerts Enabled ✓') : t.enableAlerts}
+            </button>
             <a href="/" className="adm-btn-link">{t.back}</a>
             <button className="adm-btn primary" onClick={async () => { await signOut(); navigate('/login') }}>{t.signOut}</button>
           </div>
