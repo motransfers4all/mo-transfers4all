@@ -62,7 +62,7 @@ export default function Hero({ lang }) {
         .hero-text-panel { position: relative; z-index: 2; width: 100%; max-width: 520px; background: #fff; padding: clamp(88px,11vw,126px) clamp(1.5rem,5.5vw,4.5rem) clamp(60px,7vw,88px); display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
         @media (max-width: 767px) {
           .hero-photo-panel { width: 100%; min-width: unset; }
-          .hero-text-panel { background: rgba(255,255,255,0.94); backdrop-filter: blur(3px); max-width: 100%; }
+          .hero-text-panel { background: rgba(255,255,255,0.55); backdrop-filter: blur(2px); max-width: 100%; }
         }
       `}</style>
 
