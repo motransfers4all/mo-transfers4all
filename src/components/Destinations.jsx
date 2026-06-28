@@ -13,7 +13,7 @@ const translations = {
       {
         id: 'airport',
         name: 'Athens Airport',
-        desc: 'Fast, reliable transfers to and from Athens International Airport. We monitor your flight and wait if you\'re delayed.',
+        desc: 'Fast, reliable rides to and from Athens International Airport. We monitor your flight and wait if you\'re delayed.',
         price: '€50',
         wide: true,
         photos: ['/destinations/airport-1.jpg', '/destinations/airport-2.jpg', '/destinations/airport-3.jpg'],

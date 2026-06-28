@@ -3,13 +3,13 @@ import { supabase } from '../lib/supabase'
 import { useGoogleAutocomplete } from '../lib/useGooglePlaces'
 const translations = {
   en: {
-    tag: 'Reservations', title: 'Book Your', titleEm: 'Transfer',
-    asideTitle: 'Simple, transparent booking.',
-    asideSub: 'Enter your route below and we\'ll confirm your transfer promptly. Fixed prices, no hidden fees, no surprises.',
+    tag: 'Reservations', title: 'Book Your', titleEm: 'Ride',
+    asideTitle: 'Simple, honest booking.',
+    asideSub: 'Enter your route below and we\'ll confirm your ride promptly. Fixed prices, no hidden fees, no surprises.',
     perks: [
       { icon: '✈️', label: 'Flight Monitoring', desc: 'We track your flight and adapt to any delays automatically.' },
       { icon: '💳', label: 'Flexible Payment', desc: 'Pay by card, IRIS or cash directly to the driver.' },
-      { icon: '🔒', label: 'Data Privacy', desc: 'Your data is used only for this booking and deleted after your transfer.' },
+      { icon: '🔒', label: 'Data Privacy', desc: 'Your data is used only for this booking and deleted after your ride.' },
     ],
     name: 'Full Name *', phone: 'Phone / WhatsApp *', email: 'Email *',
     pickup: 'Pickup Location *', dropoff: 'Drop-off Location *',
@@ -31,7 +31,7 @@ const translations = {
   gr: {
     tag: 'Κρατήσεις', title: 'Κλείστε', titleEm: 'Θέση',
     asideTitle: 'Απλή, διαφανής κράτηση.',
-    asideSub: 'Συμπληρώστε τη διαδρομή σας και θα επιβεβαιώσουμε τη μεταφορά σας άμεσα. Σταθερές τιμές, χωρίς κρυφές χρεώσεις.',
+    asideSub: 'Συμπληρώστε τη διαδρομή σας και θα επιβεβαιώσουμε τη διαδρομή σας άμεσα. Σταθερές τιμές, χωρίς κρυφές χρεώσεις.',
     perks: [
       { icon: '✈️', label: 'Παρακολούθηση Πτήσης', desc: 'Παρακολουθούμε την πτήση σας και προσαρμοζόμαστε αυτόματα σε καθυστερήσεις.' },
       { icon: '💳', label: 'Ευέλικτη Πληρωμή', desc: 'Πληρωμή με κάρτα, IRIS ή μετρητά απευθείας στον οδηγό.' },
