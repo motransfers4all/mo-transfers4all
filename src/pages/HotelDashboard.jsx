@@ -153,31 +153,17 @@ export default function HotelDashboard() {
     setMsg(null)
     const { error } = await supabase.from('bookings').insert([{ ...form, source: 'hotel', status: 'pending' }])
     if (error) {
-  setMsg({ type: 'error', text: 'Error: ' + error.message })
-} else {
-  // CallMeBot notification
-  try {
-  const message =
-    '🏨 Νέα Κράτηση (Ξενοδοχείο) — MO Transfers4all\n\n' +
-    '👤 Όνομα: ' + form.passenger_name + '\n' +
-    '📞 Τηλέφωνο: ' + form.passenger_phone + '\n' +
-    '📍 Παραλαβή: ' + form.pickup + '\n' +
-    '🏁 Προορισμός: ' + form.dropoff + '\n' +
-    '📅 Ημερομηνία: ' + form.date + '\n' +
-    '⏰ Ώρα: ' + form.time + '\n' +
-    '🚗 Όχημα: ' + form.vehicle + '\n' +
-    '✈️ Πτήση/Πλοίο: ' + (form.flight_number || '—') + '\n' +
-    '📝 Σημειώσεις: ' + (form.notes || '—')
-
-  await fetch('https://api.callmebot.com/whatsapp.php?phone=306936475451&text=' + encodeURIComponent(message) + '&apikey=6501193')
-} catch (waErr) {
-  console.warn('WhatsApp failed:', waErr)
-}
-
-  setMsg({ type: 'success', text: '✅ Booking submitted successfully.' })
-  setForm({ passenger_name: '', passenger_phone: '', passenger_email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '', flight_number: '' })
-  fetchBookings()
-}
+      setMsg({ type: 'error', text: 'Error: ' + error.message })
+    } else {
+      // WhatsApp notification is now sent server-side by the
+      // send-booking-push Edge Function (triggered by the bookings
+      // INSERT webhook). The old client-side CallMeBot fetch() call
+      // was removed from here because browsers can't read CallMeBot's
+      // response due to CORS, and it also hardcoded the API key.
+      setMsg({ type: 'success', text: '✅ Booking submitted successfully.' })
+      setForm({ passenger_name: '', passenger_phone: '', passenger_email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '', flight_number: '' })
+      fetchBookings()
+    }
     setSubmitting(false)
   }
 
