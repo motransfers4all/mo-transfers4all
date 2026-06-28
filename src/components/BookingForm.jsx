@@ -24,6 +24,9 @@ const translations = {
     error: '❌ An error occurred. Please call us directly.',
     pickupPh: 'Airport / Hotel / Address',
     dropoffPh: 'Your destination',
+    namePh: 'John Smith',
+    phonePh: '+30 6xx xxx xxxx',
+    notesPh: 'e.g. A3 601, large luggage...',
   },
   gr: {
     tag: 'Κρατήσεις', title: 'Κλείστε', titleEm: 'Θέση',
@@ -47,6 +50,9 @@ const translations = {
     error: '❌ Παρουσιάστηκε σφάλμα. Παρακαλώ καλέστε μας.',
     pickupPh: 'Αεροδρόμιο / Ξενοδοχείο / Διεύθυνση',
     dropoffPh: 'Ο προορισμός σας',
+    namePh: 'Γιάννης Παπαδόπουλος',
+    phonePh: '+30 6xx xxx xxxx',
+    notesPh: 'π.χ. A3 601, μεγάλες αποσκευές...',
   }
 }
 
@@ -143,7 +149,8 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
   const labelStyle = {
     fontSize: '0.7rem', color: 'rgba(255,255,255,0.75)',
-    fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.38rem'
+    fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.38rem',
+    minHeight: '1.95rem', lineHeight: 1.35
   }
 
   const handleSubmit = async (e) => {
@@ -221,7 +228,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
               <div>
                 <label style={labelStyle}>{t.name}</label>
-                <input required style={inputStyle('name')} value={form.name} placeholder="John Smith"
+                <input required style={inputStyle('name')} value={form.name} placeholder={t.namePh}
                   onChange={e => setForm({...form, name: e.target.value})}
                   onFocus={() => setFocused({...focused, name: true})}
                   onBlur={() => setFocused({...focused, name: false})}/>
@@ -229,7 +236,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
               <div>
                 <label style={labelStyle}>{t.phone}</label>
-                <input required style={inputStyle('phone')} type="tel" value={form.phone} placeholder="+30 6xx xxx xxxx"
+                <input required style={inputStyle('phone')} type="tel" value={form.phone} placeholder={t.phonePh}
                   onChange={e => setForm({...form, phone: e.target.value})}
                   onFocus={() => setFocused({...focused, phone: true})}
                   onBlur={() => setFocused({...focused, phone: false})}/>
@@ -283,7 +290,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
               <div style={{ gridColumn: '1 / -1' }}>
                 <label style={labelStyle}>{t.notes}</label>
-                <input style={inputStyle('notes')} value={form.notes} placeholder="e.g. A3 601, large luggage..."
+                <input style={inputStyle('notes')} value={form.notes} placeholder={t.notesPh}
                   onChange={e => setForm({...form, notes: e.target.value})}
                   onFocus={() => setFocused({...focused, notes: true})}
                   onBlur={() => setFocused({...focused, notes: false})}/>
