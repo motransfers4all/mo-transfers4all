@@ -98,10 +98,7 @@ const subscribeToPush = async (userId) => {
   }
 
   const permission = await Notification.requestPermission()
-  if (permission !== 'granted') {
-    alert('Notification permission is currently: ' + permission + '. Check your browser/site settings to allow notifications.')
-    return false
-  }
+  if (permission !== 'granted') return false
 
   try {
     const registration = await navigator.serviceWorker.ready
@@ -127,7 +124,6 @@ const subscribeToPush = async (userId) => {
     return true
   } catch (e) {
     console.error('Push subscription failed:', e)
-    alert('Push subscription error: ' + (e?.message || e))
     return false
   }
 }
@@ -146,6 +142,9 @@ const T = {
     email: 'Email', flight: 'Flight / Ship', notes: 'Notes',
     share: 'Share via WhatsApp', back: '← Website', loading: 'Loading bookings…',
     bookings: 'bookings',
+    installLead: 'Install the app',
+    installPrompt: 'add this to your home screen for instant access and booking notifications.',
+    installNow: 'Install Now',
   },
   gr: {
     title: 'Πίνακας Ελέγχου', total: 'Σύνολο', pending: 'Εκκρεμεί',
@@ -160,6 +159,9 @@ const T = {
     email: 'Email', flight: 'Πτήση / Πλοίο', notes: 'Σημειώσεις',
     share: 'Κοινοποίηση WhatsApp', back: '← Ιστοσελίδα', loading: 'Φόρτωση κρατήσεων…',
     bookings: 'κρατήσεις',
+    installLead: 'Εγκαταστήστε την εφαρμογή',
+    installPrompt: 'προσθέστε την στην αρχική οθόνη για άμεση πρόσβαση και ειδοποιήσεις κρατήσεων.',
+    installNow: 'Εγκατάσταση',
   }
 }
 
@@ -883,8 +885,8 @@ export default function AdminDashboard() {
         {/* PWA install banner */}
         {canInstall && (
           <div style={{ background: 'var(--blue-deep)', color: '#fff', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-            <div style={{ fontSize: '0.82rem' }}>📲 <strong>Install the app</strong> — add this to your home screen for instant access and booking notifications.</div>
-            <button onClick={install} style={{ background: '#fff', color: 'var(--blue-deep)', border: 'none', borderRadius: '6px', padding: '0.45rem 1.1rem', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>Install Now</button>
+            <div style={{ fontSize: '0.82rem' }}>📲 <strong>{t.installLead}</strong> — {t.installPrompt}</div>
+            <button onClick={install} style={{ background: '#fff', color: 'var(--blue-deep)', border: 'none', borderRadius: '6px', padding: '0.45rem 1.1rem', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>{t.installNow}</button>
           </div>
         )}
 
