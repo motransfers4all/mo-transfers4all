@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const translations = {
   en: {
-    desc: 'A licensed taxi serving Athens and Attica, run by Marjus Oruci. Honest prices, real punctuality, no fuss.',
+    desc: 'A licensed taxi serving Athens and Attica. Honest prices, real punctuality, no fuss.',
     payment: 'POS · IRIS · Cash',
     nav: 'Navigate', contact: 'Contact', legal: 'Legal',
     links: [
@@ -16,7 +16,7 @@ const translations = {
     partnerPortal: 'Partner Portal',
   },
   gr: {
-    desc: 'Αδειούχο ταξί στην Αθήνα και Αττική από τον Marjus Oruci. Τίμιες τιμές, πραγματική ακρίβεια.',
+    desc: 'Αδειούχο ταξί στην Αθήνα και Αττική. Τίμιες τιμές, πραγματική ακρίβεια.',
     payment: 'POS · IRIS · Μετρητά',
     nav: 'Πλοήγηση', contact: 'Επικοινωνία', legal: 'Νομικά',
     links: [
