@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { trackEvent } from '../lib/analytics'
 
 const translations = {
   en: {
@@ -128,10 +129,10 @@ export default function Footer({ lang }) {
             <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.52)', lineHeight: 2.2 }}>
               <div style={{ color: 'rgba(255,255,255,0.78)', fontWeight: 500, marginBottom: '0.2rem' }}>Marjus Oruci</div>
               <div>ΑΦΜ: 122559412</div>
-              <a href="tel:+306936475451" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }}>+30 693 647 5451</a>
-              <a href="tel:+306993605070" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }}>+30 699 360 5070</a>
-              <a href="tel:+306979638475" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }}>+30 697 963 8475</a>
-              <a href="mailto:mo.transfers4all@gmail.com" style={{ color: '#7ab3d9', textDecoration: 'none' }}>mo.transfers4all@gmail.com</a>
+              <a href="tel:+306936475451" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }} onClick={() => trackEvent('contact_phone_call', { method: 'footer', contact_name: 'Marjus' })}>+30 693 647 5451</a>
+              <a href="tel:+306993605070" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }} onClick={() => trackEvent('contact_phone_call', { method: 'footer', contact_name: 'Martin' })}>+30 699 360 5070</a>
+              <a href="tel:+306979638475" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }} onClick={() => trackEvent('contact_phone_call', { method: 'footer', contact_name: 'Roland' })}>+30 697 963 8475</a>
+              <a href="mailto:mo.transfers4all@gmail.com" style={{ color: '#7ab3d9', textDecoration: 'none' }} onClick={() => trackEvent('contact_email', { method: 'footer' })}>mo.transfers4all@gmail.com</a>
             </div>
           </div>
 
@@ -161,7 +162,8 @@ export default function Footer({ lang }) {
             © {year} Marjus Oruci · MO Transfers4all Athens. {t.rights}
           </p>
           <a href="https://wa.me/306936475451" target="_blank" rel="noopener noreferrer"
-            style={{ color: '#7ab3d9', fontSize: '0.72rem', textDecoration: 'none' }}>
+            style={{ color: '#7ab3d9', fontSize: '0.72rem', textDecoration: 'none' }}
+            onClick={() => trackEvent('contact_whatsapp', { method: 'footer' })}>
             💬 WhatsApp
           </a>
         </div>

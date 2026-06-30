@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useGoogleAutocomplete } from '../lib/useGooglePlaces'
+import { trackEvent } from '../lib/analytics'
 const translations = {
   en: {
     tag: 'Reservations', title: 'Book Your', titleEm: 'Ride',
@@ -181,9 +182,16 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
       // directly — its API doesn't return CORS headers, so the fetch()
       // that used to be here was silently failing.
 
+      trackEvent('generate_lead', {
+        currency: 'EUR',
+        vehicle: form.vehicle,
+        lang
+      })
+
       setMsg({ type: 'success', text: t.success })
       setForm({ name: '', phone: '', email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '' })
     } catch (err) {
+      trackEvent('booking_form_error', { message: err.message || 'unknown' })
       setMsg({ type: 'error', text: err.message || t.error })
     }
     setLoading(false)

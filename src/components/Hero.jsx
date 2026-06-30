@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { trackEvent } from '../lib/analytics'
 
 // One destination = one set of 3 local photos that cycle every few
 // seconds while that destination is showing. Drop your photos into
@@ -101,6 +102,7 @@ export default function Hero({ lang }) {
           }}
             onMouseEnter={e => { e.currentTarget.style.background = 'var(--blue-mid)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
             onMouseLeave={e => { e.currentTarget.style.background = 'var(--blue-deep)'; e.currentTarget.style.transform = 'translateY(0)' }}
+            onClick={() => trackEvent('cta_click', { cta: 'hero_book_now' })}
           >
             {t.cta} →
           </a>
@@ -112,6 +114,7 @@ export default function Hero({ lang }) {
           }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--blue-bright)'; e.currentTarget.style.color = 'var(--blue-bright)' }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--blue-deep)' }}
+            onClick={() => trackEvent('contact_phone_call', { method: 'hero_call_button' })}
           >
             📞 {t.call}
           </a>
