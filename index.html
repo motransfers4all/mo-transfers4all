@@ -6,6 +6,26 @@
     <title>MO Transfers4all Athens | Licensed Taxi</title>
     <meta name="description" content="A licensed taxi driver serving Athens and Attica. Airport pickups, long trips, day tours — punctual, fixed prices, no surprises." />
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDXP56E1TG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Default: no tracking until the user accepts the cookie banner.
+      // CookieConsent.jsx calls gtag('consent', 'update', ...) on accept,
+      // or restores this state from localStorage on repeat visits.
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+      });
+
+      gtag('config', 'G-TDXP56E1TG');
+    </script>
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
