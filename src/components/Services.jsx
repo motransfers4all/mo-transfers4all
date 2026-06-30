@@ -47,7 +47,17 @@ export default function Services({ lang }) {
               onMouseEnter={e => e.currentTarget.style.background = 'var(--blue-mid)'}
               onMouseLeave={e => e.currentTarget.style.background = 'var(--blue-deep)'}
             >
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{item.icon}</div>
+              <div style={{
+                width: '84px', height: '84px', borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(122,179,217,0.18), rgba(122,179,217,0.05))',
+                border: '1.5px solid rgba(122,179,217,0.35)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '2.6rem', margin: '0 auto 1.2rem',
+                transition: 'transform 0.3s, border-color 0.3s'
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.borderColor = '#7ab3d9' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = 'rgba(122,179,217,0.35)' }}
+              >{item.icon}</div>
               <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.1rem', fontWeight: 600, color: '#fff', marginBottom: '0.5rem' }}>{item.name}</div>
               <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>{item.desc}</p>
             </div>
