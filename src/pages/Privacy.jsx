@@ -11,7 +11,7 @@ const en = {
     {
       num: '01', title: 'Data Controller',
       content: 'Marjus Oruci (operating as MO Transfers4all Athens) is the data controller responsible for your personal information under the General Data Protection Regulation (GDPR) (EU) 2016/679.',
-      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmarjoruci@gmail.com · +30 693 647 5451\nAthens, Greece',
+      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmo.transfers4all@gmail.com · +30 693 647 5451\nAthens, Greece',
     },
     {
       num: '02', title: 'Data We Collect',
@@ -40,7 +40,7 @@ const en = {
       num: '07', title: 'Your GDPR Rights',
       content: 'Under the GDPR, you have the following rights regarding your personal data:',
       items: ['Right of access — Request a copy of your data', 'Right to rectification — Correct inaccurate data', 'Right to erasure — Request immediate deletion (data is already deleted after transfer)', 'Right to object — Object to processing', 'Right to data portability — Receive your data in a structured format'],
-      after: 'To exercise any of these rights, contact us at: marjoruci@gmail.com',
+      after: 'To exercise any of these rights, contact us at: mo.transfers4all@gmail.com',
     },
     {
       num: '08', title: 'Complaints',
@@ -63,7 +63,7 @@ const gr = {
     {
       num: '01', title: 'Υπεύθυνος Επεξεργασίας',
       content: 'Ο Marjus Oruci (δραστηριοποιούμενος ως MO Transfers4all Athens) είναι ο υπεύθυνος επεξεργασίας των προσωπικών σας δεδομένων βάσει του Γενικού Κανονισμού Προστασίας Δεδομένων (ΓΚΠΔ) (ΕΕ) 2016/679.',
-      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmarjoruci@gmail.com · +30 693 647 5451\nΑθήνα, Ελλάδα',
+      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmo.transfers4all@gmail.com · +30 693 647 5451\nΑθήνα, Ελλάδα',
     },
     {
       num: '02', title: 'Δεδομένα που Συλλέγουμε',
@@ -92,7 +92,7 @@ const gr = {
       num: '07', title: 'Τα Δικαιώματά σας ΓΚΠΔ',
       content: 'Βάσει του ΓΚΠΔ, έχετε τα ακόλουθα δικαιώματα:',
       items: ['Δικαίωμα πρόσβασης — Αίτηση αντιγράφου των δεδομένων σας', 'Δικαίωμα διόρθωσης — Διόρθωση ανακριβών δεδομένων', 'Δικαίωμα διαγραφής — Αίτηση άμεσης διαγραφής', 'Δικαίωμα εναντίωσης — Εναντίωση στην επεξεργασία', 'Δικαίωμα φορητότητας — Λήψη δεδομένων σε δομημένη μορφή'],
-      after: 'Για να ασκήσετε οποιοδήποτε δικαίωμα: marjoruci@gmail.com',
+      after: 'Για να ασκήσετε οποιοδήποτε δικαίωμα: mo.transfers4all@gmail.com',
     },
     {
       num: '08', title: 'Παράπονα',

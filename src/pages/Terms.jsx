@@ -11,7 +11,7 @@ const en = {
     {
       num: '01', title: 'Service Provider',
       content: 'These Terms of Service govern the use of private transfer services provided by Marjus Oruci, a licensed professional taxi driver operating as MO Transfers4all Athens. By making a booking, you agree to these terms in full.',
-      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmarjoruci@gmail.com · +30 693 647 5451\nAthens, Greece',
+      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmo.transfers4all@gmail.com · +30 693 647 5451\nAthens, Greece',
     },
     {
       num: '02', title: 'Booking & Confirmation',
@@ -50,7 +50,7 @@ const en = {
     {
       num: '09', title: 'Contact',
       content: 'For any questions regarding these terms or our services, please contact us:',
-      highlight: 'marjoruci@gmail.com\n+30 693 647 5451',
+      highlight: 'mo.transfers4all@gmail.com\n+30 693 647 5451',
     },
   ]
 }
@@ -64,7 +64,7 @@ const gr = {
     {
       num: '01', title: 'Πάροχος Υπηρεσιών',
       content: 'Οι παρόντες Όροι διέπουν τη χρήση των υπηρεσιών ιδιωτικής μεταφοράς που παρέχονται από τον Marjus Oruci, αδειοδοτημένο επαγγελματία οδηγό ταξί που δραστηριοποιείται ως MO Transfers4all Athens.',
-      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmarjoruci@gmail.com · +30 693 647 5451\nΑθήνα, Ελλάδα',
+      highlight: 'Marjus Oruci · MO Transfers4all Athens\nΑΦΜ: 122559412\nmo.transfers4all@gmail.com · +30 693 647 5451\nΑθήνα, Ελλάδα',
     },
     {
       num: '02', title: 'Κράτηση & Επιβεβαίωση',
@@ -103,7 +103,7 @@ const gr = {
     {
       num: '09', title: 'Επικοινωνία',
       content: 'Για οποιεσδήποτε ερωτήσεις σχετικά με αυτούς τους όρους ή τις υπηρεσίες μας:',
-      highlight: 'marjoruci@gmail.com\n+30 693 647 5451',
+      highlight: 'mo.transfers4all@gmail.com\n+30 693 647 5451',
     },
   ]
 }
