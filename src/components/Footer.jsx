@@ -92,7 +92,7 @@ export default function Footer({ lang }) {
               </a>
 
               {/* Email */}
-              <a href="mailto:marjoruci@gmail.com"
+              <a href="mailto:mo.transfers4all@gmail.com"
                 aria-label="Email" style={iconBtnStyle}
                 onMouseEnter={e => { e.currentTarget.style.background = '#7ab3d9'; e.currentTarget.style.borderColor = '#7ab3d9' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)' }}
@@ -131,7 +131,7 @@ export default function Footer({ lang }) {
               <a href="tel:+306936475451" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }}>+30 693 647 5451</a>
               <a href="tel:+306993605070" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }}>+30 699 360 5070</a>
               <a href="tel:+306979638475" style={{ color: 'rgba(255,255,255,0.52)', textDecoration: 'none', display: 'block' }}>+30 697 963 8475</a>
-              <a href="mailto:marjoruci@gmail.com" style={{ color: '#7ab3d9', textDecoration: 'none' }}>marjoruci@gmail.com</a>
+              <a href="mailto:mo.transfers4all@gmail.com" style={{ color: '#7ab3d9', textDecoration: 'none' }}>mo.transfers4all@gmail.com</a>
             </div>
           </div>
 
