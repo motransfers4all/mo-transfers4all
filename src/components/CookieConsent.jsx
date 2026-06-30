@@ -36,6 +36,11 @@ export default function CookieConsent({ lang }) {
       const tmr = setTimeout(() => setVisible(true), 1200)
       return () => clearTimeout(tmr)
     }
+    // Returning visitor who already chose "accepted" — restore consent
+    // so analytics resumes on this page load too.
+    if (stored === 'accepted' && typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', { analytics_storage: 'granted' })
+    }
   }, [])
 
   const dismiss = (choice) => {
@@ -44,6 +49,13 @@ export default function CookieConsent({ lang }) {
       localStorage.setItem(COOKIE_KEY, choice)
       setVisible(false)
       setLeaving(false)
+
+      if (choice === 'accepted' && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: 'granted' })
+        // Send the pageview now that tracking is permitted, since the
+        // initial config() call earlier was sent while consent was denied.
+        window.gtag('event', 'page_view')
+      }
     }, 380)
   }
 
