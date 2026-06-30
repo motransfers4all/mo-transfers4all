@@ -62,11 +62,14 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "TaxiService",
+      "@type": ["LocalBusiness", "TaxiService"],
+      "@id": "https://mo-transfers4all.gr/#business",
       "name": "MO Transfers4all Athens",
-      "image": "https://mo-transfers4all.gr/og-image.jpg",
+      "description": "A licensed taxi driver serving Athens and Attica. Airport pickups, long trips, day tours — punctual, fixed prices, no surprises.",
+      "image": ["https://mo-transfers4all.gr/og-image.jpg"],
+      "logo": "https://mo-transfers4all.gr/logo.jpg",
       "url": "https://mo-transfers4all.gr/",
-      "telephone": "+30 693 647 5451",
+      "telephone": "+306936475451",
       "email": "mo.transfers4all@gmail.com",
       "address": {
         "@type": "PostalAddress",
@@ -78,15 +81,21 @@
         "@type": "City",
         "name": "Athens"
       },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday", "Tuesday", "Wednesday", "Thursday",
-          "Friday", "Saturday", "Sunday"
-        ],
-        "opens": "00:00",
-        "closes": "23:59"
-      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday", "Tuesday", "Wednesday", "Thursday",
+            "Friday", "Saturday", "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/share/1ATvuaorcG/",
+        "https://www.instagram.com/mo.transfers4all?igsh=N3p4enhmaHNieG13"
+      ],
       "priceRange": "€€"
     }
     </script>
