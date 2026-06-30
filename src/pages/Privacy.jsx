@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 const en = {
   tag: 'Legal', title: 'Privacy', titleEm: 'Policy',
-  updated: 'Last updated: January 2025 · GDPR Compliant',
+  updated: 'Last updated: June 2026 · GDPR Compliant',
   keyLabel: 'Core Privacy Commitment',
   keyText: 'All customer personal data is strictly used for the booking process and is permanently deleted immediately after the completion of the transfer.',
   sections: [
@@ -30,11 +30,11 @@ const en = {
     },
     {
       num: '05', title: 'Data Sharing',
-      content: 'We do not sell, share, or transfer your personal data to any third parties. Your booking information is used solely by MO Transfers4all Athens to coordinate your journey. Booking submissions are transmitted via secure encrypted channels. No third-party CRM, marketing platform, or analytics tool stores your personal data.',
+      content: 'We do not sell, share, or transfer your personal data to any third parties. Your booking information is used solely by MO Transfers4all Athens to coordinate your journey. Booking submissions are transmitted via secure encrypted channels. No third-party CRM or marketing platform stores your personal data. The only third-party tool used is Google Analytics, and only with your consent — see the Cookies section below for details.',
     },
     {
       num: '06', title: 'Cookies',
-      content: 'Our website uses only essential technical cookies necessary for the website to function. We do not use tracking or advertising cookies, analytics cookies (Google Analytics, etc.), or social media cookies or pixels. Essential cookies store only your language preference and cookie consent choice. They contain no personal identifying information.',
+      content: 'Our website uses essential technical cookies necessary for the website to function (storing only your language preference and cookie consent choice — these contain no personal identifying information). With your consent, we also use Google Analytics (GA4) to understand how visitors use our site, such as which pages are viewed and how visitors arrived at the site. Analytics cookies are not set, and no data is sent to Google, unless you click "Accept" on our cookie banner. You can withdraw this consent at any time by clearing your cookies or contacting us. Google may process this data on servers outside the EU/EEA under its own privacy safeguards; see Google\u2019s Privacy Policy for details. We do not use advertising cookies, social media cookies, or pixels.',
     },
     {
       num: '07', title: 'Your GDPR Rights',
@@ -56,7 +56,7 @@ const en = {
 
 const gr = {
   tag: 'Νομικά', title: 'Πολιτική', titleEm: 'Απορρήτου',
-  updated: 'Τελευταία ενημέρωση: Ιανουάριος 2025 · Συμμόρφωση GDPR',
+  updated: 'Τελευταία ενημέρωση: Ιούνιος 2026 · Συμμόρφωση GDPR',
   keyLabel: 'Βασική Δέσμευση Απορρήτου',
   keyText: 'Όλα τα προσωπικά δεδομένα των πελατών χρησιμοποιούνται αποκλειστικά για τη διαδικασία της κράτησης και διαγράφονται οριστικά αμέσως μετά την ολοκλήρωση της μεταφοράς.',
   sections: [
@@ -82,11 +82,11 @@ const gr = {
     },
     {
       num: '05', title: 'Κοινοποίηση Δεδομένων',
-      content: 'Δεν πουλάμε, κοινοποιούμε ή μεταφέρουμε τα προσωπικά σας δεδομένα σε τρίτους. Οι πληροφορίες κράτησής σας χρησιμοποιούνται αποκλειστικά από την MO Transfers4all Athens. Κανένα τρίτο μέρος CRM, πλατφόρμα μάρκετινγκ ή εργαλείο ανάλυσης δεν αποθηκεύει τα προσωπικά σας δεδομένα.',
+      content: 'Δεν πουλάμε, κοινοποιούμε ή μεταφέρουμε τα προσωπικά σας δεδομένα σε τρίτους. Οι πληροφορίες κράτησής σας χρησιμοποιούνται αποκλειστικά από την MO Transfers4all Athens. Κανένα τρίτο μέρος CRM ή πλατφόρμα μάρκετινγκ δεν αποθηκεύει τα προσωπικά σας δεδομένα. Το μόνο εργαλείο τρίτου μέρους που χρησιμοποιείται είναι το Google Analytics, και μόνο με τη συγκατάθεσή σας — δείτε την ενότητα Cookies παρακάτω.',
     },
     {
       num: '06', title: 'Cookies',
-      content: 'Ο ιστότοπός μας χρησιμοποιεί μόνο απαραίτητα τεχνικά cookies για τη λειτουργία του. Δεν χρησιμοποιούμε cookies παρακολούθησης, διαφήμισης, ανάλυσης ή κοινωνικών δικτύων. Τα απαραίτητα cookies αποθηκεύουν μόνο τη γλωσσική σας προτίμηση και την επιλογή συγκατάθεσης cookies.',
+      content: 'Ο ιστότοπός μας χρησιμοποιεί απαραίτητα τεχνικά cookies για τη λειτουργία του (αποθηκεύουν μόνο τη γλωσσική σας προτίμηση και την επιλογή συγκατάθεσης cookies, χωρίς προσωπικά αναγνωριστικά δεδομένα). Με τη συγκατάθεσή σας, χρησιμοποιούμε επίσης το Google Analytics (GA4) για να κατανοούμε πώς οι επισκέπτες χρησιμοποιούν τον ιστότοπό μας, όπως ποιες σελίδες προβάλλονται. Τα cookies ανάλυσης δεν ενεργοποιούνται, και δεν αποστέλλονται δεδομένα στην Google, εκτός εάν επιλέξετε "Αποδοχή" στο banner cookies μας. Μπορείτε να ανακαλέσετε αυτή τη συγκατάθεση ανά πάσα στιγμή διαγράφοντας τα cookies σας ή επικοινωνώντας μαζί μας. Η Google ενδέχεται να επεξεργάζεται αυτά τα δεδομένα σε servers εκτός ΕΕ/ΕΟΧ σύμφωνα με τις δικές της εγγυήσεις απορρήτου. Δεν χρησιμοποιούμε cookies διαφήμισης ή κοινωνικών δικτύων.',
     },
     {
       num: '07', title: 'Τα Δικαιώματά σας ΓΚΠΔ',

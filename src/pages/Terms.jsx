@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 const en = {
   tag: 'Legal', title: 'Terms of', titleEm: 'Service',
-  updated: 'Last updated: January 2025',
+  updated: 'Last updated: June 2026',
   keyLabel: 'Service Summary',
   keyText: 'By making a booking with MO Transfers4all Athens, you agree to these Terms of Service in full. All fares are fixed, inclusive of tolls, and confirmed at time of booking.',
   sections: [
@@ -57,7 +57,7 @@ const en = {
 
 const gr = {
   tag: 'Νομικά', title: 'Όροι', titleEm: 'Υπηρεσίας',
-  updated: 'Τελευταία ενημέρωση: Ιανουάριος 2025',
+  updated: 'Τελευταία ενημέρωση: Ιούνιος 2026',
   keyLabel: 'Σύνοψη Υπηρεσίας',
   keyText: 'Κάνοντας κράτηση με την MO Transfers4all Athens, αποδέχεστε πλήρως αυτούς τους Όρους Υπηρεσίας. Όλες οι τιμές είναι σταθερές, περιλαμβάνουν διόδια και επιβεβαιώνονται κατά την κράτηση.',
   sections: [
