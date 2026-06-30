@@ -13,18 +13,27 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      // Default: deny analytics only where consent law requires it
-      // (EU/EEA, UK, Switzerland). Visitors elsewhere are tracked by
-      // default, since most of our traffic is non-EU tourists and GDPR
-      // consent isn't a legal requirement for them.
-      // CookieConsent.jsx upgrades EEA visitors to 'granted' on accept,
-      // or restores that state from localStorage on repeat visits.
+      // Default for everyone NOT covered by the region-specific rule
+      // below (i.e. non-EEA/UK/CH visitors): track by default, since
+      // GDPR-style consent isn't a legal requirement for them.
+      gtag('consent', 'default', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted'
+      });
+
+      // Default for EU/EEA, UK, and Switzerland: deny until the visitor
+      // clicks "Accept" on our cookie banner. CookieConsent.jsx calls
+      // gtag('consent', 'update', ...) on accept, or restores that
+      // state from localStorage on repeat visits.
+      // Note: param is 'region' (singular), per Google's consent API.
       gtag('consent', 'default', {
         'analytics_storage': 'denied',
         'ad_storage': 'denied',
         'ad_user_data': 'denied',
         'ad_personalization': 'denied',
-        'regions': [
+        'region': [
           'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR',
           'HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK',
           'SI','ES','SE','IS','LI','NO','GB','CH'
