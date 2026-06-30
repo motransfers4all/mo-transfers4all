@@ -13,14 +13,22 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      // Default: no tracking until the user accepts the cookie banner.
-      // CookieConsent.jsx calls gtag('consent', 'update', ...) on accept,
-      // or restores this state from localStorage on repeat visits.
+      // Default: deny analytics only where consent law requires it
+      // (EU/EEA, UK, Switzerland). Visitors elsewhere are tracked by
+      // default, since most of our traffic is non-EU tourists and GDPR
+      // consent isn't a legal requirement for them.
+      // CookieConsent.jsx upgrades EEA visitors to 'granted' on accept,
+      // or restores that state from localStorage on repeat visits.
       gtag('consent', 'default', {
         'analytics_storage': 'denied',
         'ad_storage': 'denied',
         'ad_user_data': 'denied',
-        'ad_personalization': 'denied'
+        'ad_personalization': 'denied',
+        'regions': [
+          'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR',
+          'HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK',
+          'SI','ES','SE','IS','LI','NO','GB','CH'
+        ]
       });
 
       gtag('config', 'G-TDXP56E1TG');
