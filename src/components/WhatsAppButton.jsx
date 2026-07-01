@@ -149,7 +149,7 @@ export default function WhatsAppButton({ lang }) {
                 className="wa-contact-card"
                 aria-label={t.contact(c.name)}
                 style={{ animationDelay: `${i * 0.07}s` }}
-                onClick={() => trackWhatsAppContact(c.name)}
+                onClick={() => trackWhatsAppContact(c.name, 'whatsapp_widget')}
               >
                 <div className="wa-avatar">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="white">
