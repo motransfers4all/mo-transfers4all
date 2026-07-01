@@ -5,6 +5,7 @@ import AdminDashboard from './pages/AdminDashboard.jsx'
 import HotelDashboard from './pages/HotelDashboard.jsx'
 import Privacy from './pages/Privacy.jsx'
 import Terms from './pages/Terms.jsx'
+import NotFound from './pages/NotFound.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <HotelDashboard />
           </ProtectedRoute>
         }/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
