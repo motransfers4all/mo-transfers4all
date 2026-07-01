@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import { trackBookingSubmitted } from '../lib/analytics'
 import { useGoogleAutocomplete } from '../lib/useGooglePlaces'
 const translations = {
   en: {
@@ -175,13 +176,7 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
       if (error) throw new Error('Booking error: ' + error.message)
 
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'booking',
-          event_label: form.vehicle,
-          value: 1
-        })
-      }
+      trackBookingSubmitted(form.vehicle, 'website')
 
       // WhatsApp notification is now sent server-side by the
       // send-booking-push Edge Function (triggered by the bookings

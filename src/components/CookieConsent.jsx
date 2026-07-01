@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { trackEvent } from '../lib/analytics'
 
 const COOKIE_KEY = 'mo-cookie-consent'
 
@@ -54,7 +55,7 @@ export default function CookieConsent({ lang }) {
         window.gtag('consent', 'update', { analytics_storage: 'granted' })
         // Send the pageview now that tracking is permitted, since the
         // initial config() call earlier was sent while consent was denied.
-        window.gtag('event', 'page_view')
+        trackEvent('page_view')
       }
     }, 380)
   }
