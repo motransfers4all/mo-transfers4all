@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home.jsx'
+import DestinationPage from './pages/DestinationPage.jsx'
 import Login from './pages/Login.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import HotelDashboard from './pages/HotelDashboard.jsx'
@@ -14,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gr" element={<Home />} />
+        <Route path="/destinations/:slug" element={<DestinationPage />} />
+        <Route path="/gr/destinations/:slug" element={<DestinationPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
