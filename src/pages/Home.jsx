@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Hero from '../components/Hero.jsx'
@@ -39,7 +39,6 @@ export default function Home() {
   const location = useLocation()
   const navigate = useNavigate()
   const lang = location.pathname.startsWith('/gr') ? 'gr' : 'en'
-  const [prefill, setPrefill] = useState({ pickup: '', dropoff: '' })
 
   // Language switcher now navigates to a real, separate URL instead of
   // just flipping local state — this is what makes each language a page
@@ -73,8 +72,8 @@ export default function Home() {
       <Navbar lang={lang} setLang={setLang}/>
       <Hero lang={lang}/>
       <Services lang={lang}/>
-      <Destinations lang={lang} onSelect={(pickup, dropoff) => setPrefill({ pickup, dropoff })}/>
-      <BookingForm lang={lang} prefillPickup={prefill.pickup} prefillDropoff={prefill.dropoff}/>
+      <Destinations lang={lang}/>
+      <BookingForm lang={lang}/>
       <Fleet lang={lang}/>
       <Prices lang={lang}/>
       <Footer lang={lang}/>
