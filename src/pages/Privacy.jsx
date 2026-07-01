@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const en = {
   tag: 'Legal', title: 'Privacy', titleEm: 'Policy',
@@ -109,6 +109,10 @@ const gr = {
 export default function Privacy() {
   const [lang, setLang] = useState(() => localStorage.getItem('mo-lang') || 'en')
   const t = lang === 'gr' ? gr : en
+
+  useEffect(() => {
+    document.title = 'Privacy Policy | MO Transfers4all Athens'
+  }, [])
 
   return (
     <>
