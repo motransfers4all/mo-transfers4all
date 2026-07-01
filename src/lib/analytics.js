@@ -1,6 +1,34 @@
-// Thin wrapper around gtag so call sites don't need to guard against
-// window.gtag being unavailable (e.g. consent denied, ad-blocker, SSR).
-export function trackEvent(name, params = {}) {
+// Small wrapper around gtag so components don't each need to repeat the
+// "is gtag loaded" check, and so event names/shapes stay consistent.
+// Events fired here are safe to call unconditionally — gtag's consent
+// mode (configured in index.html) silently drops data for visitors who
+// haven't accepted cookies yet, it doesn't error.
+
+export const trackEvent = (eventName, params = {}) => {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
-  window.gtag('event', name, params)
+  window.gtag('event', eventName, params)
+}
+
+// Common events used across the site, named consistently so GA4 reports
+// stay clean instead of accumulating slightly-different ad-hoc event names.
+export const trackBookingSubmitted = (vehicle, source = 'website') => {
+  trackEvent('generate_lead', {
+    event_category: 'booking',
+    event_label: vehicle,
+    source,
+    value: 1
+  })
+}
+
+export const trackWhatsAppContact = (contactName) => {
+  trackEvent('contact', {
+    event_category: 'whatsapp',
+    event_label: contactName
+  })
+}
+
+export const trackPhoneCall = () => {
+  trackEvent('contact', {
+    event_category: 'phone'
+  })
 }
