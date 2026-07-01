@@ -75,7 +75,7 @@ export default function Footer({ lang }) {
             {/* Social / contact icons */}
             <div style={{ display: 'flex', gap: '0.6rem', marginTop: '1.15rem' }}>
               {/* Facebook */}
-              <a href="https://www.facebook.com/share/1ATvuaorcG/" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.facebook.com/profile.php?id=61591744370335" target="_blank" rel="noopener noreferrer"
                 aria-label="Facebook" style={iconBtnStyle}
                 onMouseEnter={e => { e.currentTarget.style.background = '#7ab3d9'; e.currentTarget.style.borderColor = '#7ab3d9' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)' }}
