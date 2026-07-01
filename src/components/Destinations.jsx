@@ -1,71 +1,16 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { destinations } from '../data/destinations'
 
-const translations = {
+const copy = {
   en: {
     tag: 'Where We Go',
     title: 'Popular',
     titleEm: 'Destinations',
     sub: 'From Athens airport to the most breathtaking corners of Greece — we take you there safely and comfortably.',
     from: 'from',
-    book: 'Book →',
+    book: 'Explore →',
     anywhere: 'Don\'t see your destination? We go anywhere in Greece — use the booking form below.',
-    destinations: [
-      {
-        id: 'airport',
-        name: 'Athens Airport',
-        desc: 'Fast, reliable rides to and from Athens International Airport. We monitor your flight and wait if you\'re delayed.',
-        price: '€50',
-        wide: true,
-        photos: ['/destinations/airport-1.jpg', '/destinations/airport-2.jpg', '/destinations/airport-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Athens City Centre'
-      },
-      {
-        id: 'meteora',
-        name: 'Meteora',
-        desc: 'Ancient monasteries perched on towering rocks — one of Greece\'s most extraordinary sights.',
-        price: '€425',
-        photos: ['/destinations/meteora-1.jpg', '/destinations/meteora-2.jpg', '/destinations/meteora-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Meteora, Kalabaka'
-      },
-      {
-        id: 'sounio',
-        name: 'Cape Sounio',
-        desc: 'Temple of Poseidon at sunset. A 45-minute drive from Athens along the Attic Riviera.',
-        price: '€61',
-        photos: ['/destinations/sounio-1.jpg', '/destinations/sounio-2.jpg', '/destinations/sounio-3.jpg'],
-        pickup: 'Athens Centre',
-        dropoff: 'Sounio, Greece'
-      },
-      {
-        id: 'kalamata',
-        name: 'Kalamata',
-        desc: 'Peloponnese coast, olive groves and crystal clear waters. A scenic 3.5-hour drive from Athens.',
-        price: '€318',
-        photos: ['/destinations/kalamata-1.jpg', '/destinations/kalamata-2.jpg', '/destinations/kalamata-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Kalamata, Greece'
-      },
-      {
-        id: 'patra',
-        name: 'Patra',
-        desc: 'Gateway to the Ionian islands. Greece\'s third largest city with a famous carnival and stunning bridge.',
-        price: '€285',
-        photos: ['/destinations/patra-1.jpg', '/destinations/patra-2.jpg', '/destinations/patra-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Patra, Greece'
-      },
-      {
-        id: 'piraeus',
-        name: 'Piraeus Port',
-        desc: 'Catch your ferry or cruise ship. We\'ll get you there with time to spare.',
-        price: '€66',
-        photos: ['/destinations/piraeus-1.jpg', '/destinations/piraeus-2.jpg', '/destinations/piraeus-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Piraeus Port, Athens'
-      },
-    ]
   },
   gr: {
     tag: 'Προορισμοί',
@@ -73,73 +18,17 @@ const translations = {
     titleEm: 'Προορισμοί',
     sub: 'Από το αεροδρόμιο της Αθήνας μέχρι τις πιο εντυπωσιακές γωνιές της Ελλάδας — σας πάμε εκεί με ασφάλεια και άνεση.',
     from: 'από',
-    book: 'Κράτηση →',
+    book: 'Δείτε περισσότερα →',
     anywhere: 'Δεν βλέπετε τον προορισμό σας; Πηγαίνουμε παντού στην Ελλάδα — χρησιμοποιήστε τη φόρμα κράτησης.',
-    destinations: [
-      {
-        id: 'airport',
-        name: 'Αεροδρόμιο Αθήνας',
-        desc: 'Γρήγορες, αξιόπιστες μεταφορές από και προς το ΔΑΑ. Παρακολουθούμε την πτήση σας και περιμένουμε αν καθυστερήσετε.',
-        price: '€50',
-        wide: true,
-        photos: ['/destinations/airport-1.jpg', '/destinations/airport-2.jpg', '/destinations/airport-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Athens City Centre'
-      },
-      {
-        id: 'meteora',
-        name: 'Μετέωρα',
-        desc: 'Αρχαία μοναστήρια σε επιβλητικούς βράχους — ένα από τα πιο εκπληκτικά θεάματα της Ελλάδας.',
-        price: '€425',
-        photos: ['/destinations/meteora-1.jpg', '/destinations/meteora-2.jpg', '/destinations/meteora-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Meteora, Kalabaka'
-      },
-      {
-        id: 'sounio',
-        name: 'Ακρωτήριο Σούνιο',
-        desc: 'Ναός Ποσειδώνα στο ηλιοβασίλεμα. 45 λεπτά από την Αθήνα κατά μήκος της Αττικής Ριβιέρας.',
-        price: '€61',
-        photos: ['/destinations/sounio-1.jpg', '/destinations/sounio-2.jpg', '/destinations/sounio-3.jpg'],
-        pickup: 'Athens Centre',
-        dropoff: 'Sounio, Greece'
-      },
-      {
-        id: 'kalamata',
-        name: 'Καλαμάτα',
-        desc: 'Παράκτια Πελοπόννησος, ελαιώνες και κρυστάλλινα νερά. Γραφική διαδρομή 3,5 ωρών από Αθήνα.',
-        price: '€318',
-        photos: ['/destinations/kalamata-1.jpg', '/destinations/kalamata-2.jpg', '/destinations/kalamata-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Kalamata, Greece'
-      },
-      {
-        id: 'patra',
-        name: 'Πάτρα',
-        desc: 'Πύλη για τα Ιόνια νησιά. Τρίτη μεγαλύτερη πόλη της Ελλάδας με φημισμένο καρναβάλι.',
-        price: '€285',
-        photos: ['/destinations/patra-1.jpg', '/destinations/patra-2.jpg', '/destinations/patra-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Patra, Greece'
-      },
-      {
-        id: 'piraeus',
-        name: 'Λιμάνι Πειραιά',
-        desc: 'Προλάβετε το ferry ή το κρουαζιερόπλοιό σας. Σας φτάνουμε εκεί με άνεση χρόνου.',
-        price: '€66',
-        photos: ['/destinations/piraeus-1.jpg', '/destinations/piraeus-2.jpg', '/destinations/piraeus-3.jpg'],
-        pickup: 'Athens International Airport',
-        dropoff: 'Piraeus Port, Athens'
-      },
-    ]
   }
 }
 
-export default function Destinations({ lang, onSelect }) {
-  const t = translations[lang]
+export default function Destinations({ lang }) {
+  const t = copy[lang]
+  const list = destinations[lang]
 
-  const wide = t.destinations.find(d => d.wide)
-  const rest = t.destinations.filter(d => !d.wide)
+  const wide = list.find(d => d.wide)
+  const rest = list.filter(d => !d.wide)
 
   const Card = ({ dest, isWide }) => {
     const [photoIndex, setPhotoIndex] = useState(0)
@@ -151,24 +40,38 @@ export default function Destinations({ lang, onSelect }) {
       return () => clearInterval(interval)
     }, [dest.photos.length])
 
+    // Each card is a real, crawlable link to the destination's own page
+    // (src/pages/DestinationPage.jsx) rather than a same-page scroll —
+    // that dedicated page is what search engines can actually index and
+    // rank for destination-specific searches.
+    const href = `${lang === 'gr' ? '/gr' : ''}/destinations/${dest.id}`
+
     return (
-      <div
-        onClick={() => { onSelect(dest.pickup, dest.dropoff); document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' }) }}
+      <Link
+        to={href}
         style={{
           position: 'relative', borderRadius: '10px', overflow: 'hidden',
           cursor: 'pointer', gridColumn: isWide ? 'span 2' : 'span 1',
           aspectRatio: isWide ? 'unset' : '3/4',
-          minHeight: isWide ? '280px' : 'unset'
+          minHeight: isWide ? '280px' : 'unset',
+          display: 'block', textDecoration: 'none'
         }}
       >
         {dest.photos.map((photo, i) => (
-          <div key={photo} style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: `url('${photo}')`,
-            backgroundSize: 'cover', backgroundPosition: 'center',
-            opacity: i === photoIndex ? 1 : 0,
-            transition: 'opacity 1s ease-in-out'
-          }}/>
+          <img
+            key={photo}
+            src={photo}
+            alt={dest.alt}
+            loading="lazy"
+            decoding="async"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center',
+              opacity: i === photoIndex ? 1 : 0,
+              transition: 'opacity 1s ease-in-out'
+            }}
+          />
         ))}
         <div style={{
           position: 'absolute', inset: 0,
@@ -180,7 +83,7 @@ export default function Destinations({ lang, onSelect }) {
             fontSize: isWide ? '1.55rem' : '1.2rem',
             fontWeight: 600, color: '#fff', lineHeight: 1.2, marginBottom: '0.3rem'
           }}>{dest.name}</div>
-          <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, marginBottom: '0.8rem' }}>{dest.desc}</div>
+          <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, marginBottom: '0.8rem' }}>{dest.cardDesc}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -195,7 +98,7 @@ export default function Destinations({ lang, onSelect }) {
             }}>{t.book}</span>
           </div>
         </div>
-      </div>
+      </Link>
     )
   }
 
@@ -214,7 +117,7 @@ export default function Destinations({ lang, onSelect }) {
         <style>{`
           @media (max-width: 768px) {
             .dest-grid { grid-template-columns: 1fr !important; }
-            .dest-grid > div[style*="span 2"] { grid-column: span 1 !important; aspect-ratio: 16/9 !important; min-height: unset !important; }
+            .dest-grid > a[style*="span 2"] { grid-column: span 1 !important; aspect-ratio: 16/9 !important; min-height: unset !important; }
           }
           @media (min-width: 769px) and (max-width: 1024px) {
             .dest-grid { grid-template-columns: repeat(2,1fr) !important; }
