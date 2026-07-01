@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useGoogleAutocomplete } from '../lib/useGooglePlaces'
-import { trackEvent } from '../lib/analytics'
 const translations = {
   en: {
     tag: 'Reservations', title: 'Book Your', titleEm: 'Ride',
@@ -176,22 +175,23 @@ export default function BookingForm({ lang, prefillPickup, prefillDropoff }) {
 
       if (error) throw new Error('Booking error: ' + error.message)
 
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'booking',
+          event_label: form.vehicle,
+          value: 1
+        })
+      }
+
       // WhatsApp notification is now sent server-side by the
       // send-booking-push Edge Function (triggered by the bookings
       // INSERT webhook), since browsers can't reliably call CallMeBot
       // directly — its API doesn't return CORS headers, so the fetch()
       // that used to be here was silently failing.
 
-      trackEvent('generate_lead', {
-        currency: 'EUR',
-        vehicle: form.vehicle,
-        lang
-      })
-
       setMsg({ type: 'success', text: t.success })
       setForm({ name: '', phone: '', email: '', pickup: '', dropoff: '', date: '', time: '', vehicle: '', notes: '' })
     } catch (err) {
-      trackEvent('booking_form_error', { message: err.message || 'unknown' })
       setMsg({ type: 'error', text: err.message || t.error })
     }
     setLoading(false)
