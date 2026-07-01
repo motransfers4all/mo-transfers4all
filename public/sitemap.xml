@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mo-transfers4all.gr/</loc>
-    <lastmod>2026-06-28</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mo-transfers4all.gr/" />
+    <xhtml:link rel="alternate" hreflang="el" href="https://mo-transfers4all.gr/gr" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mo-transfers4all.gr/" />
+  </url>
+  <url>
+    <loc>https://mo-transfers4all.gr/gr</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mo-transfers4all.gr/" />
+    <xhtml:link rel="alternate" hreflang="el" href="https://mo-transfers4all.gr/gr" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mo-transfers4all.gr/" />
   </url>
   <url>
     <loc>https://mo-transfers4all.gr/privacy</loc>
