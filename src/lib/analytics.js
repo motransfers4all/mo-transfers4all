@@ -20,15 +20,20 @@ export const trackBookingSubmitted = (vehicle, source = 'website') => {
   })
 }
 
-export const trackWhatsAppContact = (contactName) => {
-  trackEvent('contact', {
-    event_category: 'whatsapp',
-    event_label: contactName
+export const trackWhatsAppContact = (contactName, method = 'whatsapp_widget') => {
+  trackEvent('contact_whatsapp', {
+    method,
+    contact_name: contactName
   })
 }
 
-export const trackPhoneCall = () => {
-  trackEvent('contact', {
-    event_category: 'phone'
+export const trackPhoneCall = (contactName, method = 'website') => {
+  trackEvent('contact_phone_call', {
+    method,
+    contact_name: contactName
   })
+}
+
+export const trackEmailContact = (method = 'website') => {
+  trackEvent('contact_email', { method })
 }
